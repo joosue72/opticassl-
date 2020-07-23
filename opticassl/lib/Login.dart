@@ -2,19 +2,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:opticassl/Animation/FadeAnimation.dart';
-//import 'Menu.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:opticassl/Menu.dart';
 
 
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myController = TextEditingController();
-    //final db = Firestore.instance;
-    // String t ;
+    final db = Firestore.instance;
+    String t ;
     SystemChrome.setEnabledSystemUIOverlays([]);
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(254, 228, 62, 10),
+      backgroundColor: Color(0xFF009688),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,11 +27,11 @@ class Login extends StatelessWidget {
                   
                   Positioned(
                     height: 400,
-                    width: width+20,
+                    width: width+10,
                     child: FadeAnimation(1.3, Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/background-2.png'),
+                          image: AssetImage('assets/bsl.png'),
                           fit: BoxFit.fill
                         )
                       ),
@@ -44,7 +45,7 @@ class Login extends StatelessWidget {
                         
                         image: DecorationImage(
                           
-                          image: AssetImage('assets/logogumen3.png')
+                          image: AssetImage('assets/pp.png')
                           
                         )
                       ),
@@ -58,7 +59,7 @@ class Login extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  FadeAnimation(1.5, Text("Login", style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100), fontWeight: FontWeight.bold, fontSize: 30),)),
+                  FadeAnimation(1.5, Text("Inicio De Sesión", style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100), fontWeight: FontWeight.bold, fontSize: 30),)),
                   SizedBox(height: 30,),
                   FadeAnimation(1.7, Container(
                     decoration: BoxDecoration(
@@ -83,7 +84,7 @@ class Login extends StatelessWidget {
                             decoration: InputDecoration(
                               
                               border: InputBorder.none,
-                              hintText: "Password",
+                              hintText: "Contraseña",
                               hintStyle: TextStyle(color: Colors.grey)
                             ),
                           ),
@@ -105,15 +106,59 @@ class Login extends StatelessWidget {
                               color: Colors.black,
                              child: Text("Login", style: TextStyle(color: Colors.white),),
                              onPressed: (){
+ db
+                                          .collection("Login")
+                                          .snapshots()
+                                          .listen((result) {
+                                        result.documents.forEach((result) {
+                                          t = result.data['Nombre'].toString();
 
-                                 
+                                           if(myController.text == t.toString())
+                                            {
 
-                            
-                             
+                                                Route route = MaterialPageRoute(builder: (bc) => HomeScreen());
+                                                Navigator.of(context).push(route);
+                                              
+                                            }
 
-                              
-                              
-                              
+                                             else
+                                              {
+                                                
+                                                      return showDialog<void>(
+                                                        context: context,
+                                                        barrierDismissible: false, // user must tap button!
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialog(
+                                                            title: Text('Contraseña Incorrecta', textAlign: TextAlign.center),
+                                                            content: SingleChildScrollView(
+                                                              child: ListBody(
+                                                                children: <Widget>[
+                                                                  Image.asset(
+                                                                      "images/wrong.gif",
+                                                                      height: 125.0,
+                                                                      width: 125.0,
+                                                                    )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            actions: <Widget>[
+                                                              FlatButton(
+                                                                child: Text('Approve'),
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+                                                    
+                                              }
+                                          
+                                           
+                                        });
+                                              
+                                  }); 
                              },
                       )
 

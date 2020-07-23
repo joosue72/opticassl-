@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "74599483324",
+    "firebase_url": "https://ls-studios.firebaseio.com",
+    "project_id": "ls-studios",
+    "storage_bucket": "ls-studios.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74599483324:android:d2c33f9990ecdee1570db9",
+        "android_client_info": {
+          "package_name": "com.example.opticassl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "74599483324-q36q46re1p15oif1u9pbbephj10q6juk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFXnDEbXSi0WQRhRG8w4d4qzgcfZlckPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "74599483324-q36q46re1p15oif1u9pbbephj10q6juk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

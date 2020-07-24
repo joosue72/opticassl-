@@ -5,13 +5,14 @@ import 'package:opticassl/Animation/FadeAnimation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:opticassl/Menu.dart';
 
+final myController = TextEditingController();
+    final db = Firestore.instance;
+    String t ;
 
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final myController = TextEditingController();
-    final db = Firestore.instance;
-    String t ;
+    
     SystemChrome.setEnabledSystemUIOverlays([]);
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -79,6 +80,10 @@ class Login extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.all(10),
                           child: TextField(
+                            onSubmitted: (myController)
+                            {
+                              validarLogin(context);
+                            },
                             obscureText: true,
                            controller: myController,
                             decoration: InputDecoration(
@@ -106,7 +111,28 @@ class Login extends StatelessWidget {
                               color: Colors.black,
                              child: Text("Login", style: TextStyle(color: Colors.white),),
                              onPressed: (){
- db
+                                validarLogin(context);
+                             },
+                      )
+
+                    ),
+
+                  )
+                  
+                  ),
+                  
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+void validarLogin(BuildContext context)
+{
+  db
                                           .collection("Login")
                                           .snapshots()
                                           .listen((result) {
@@ -159,21 +185,6 @@ class Login extends StatelessWidget {
                                         });
                                               
                                   }); 
-                             },
-                      )
+}
 
-                    ),
-
-                  )
-                  
-                  ),
-                  
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }

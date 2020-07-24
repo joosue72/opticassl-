@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:opticassl/Inventario.dart';
+import 'package:opticassl/Ventas.dart';
 
 
 
@@ -42,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
 
-             gradient: new LinearGradient(colors: [const Color(0xFF009688), const Color(0xFF00BFA5)],
+             gradient: new LinearGradient(colors: [const Color(0xFF009688), const Color(0xFF4B3DFDB)],
                 begin: FractionalOffset.topLeft,
                 end: FractionalOffset.bottomRight,
                 stops: [0.0,1.0],
@@ -107,8 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             
                              onPressed: (){
                                
-                               //Route route = MaterialPageRoute(builder: (bc) => Ventas());
-                               //Navigator.of(context).push(route);
+                               Route route = MaterialPageRoute(builder: (bc) => Ventas());
+                               Navigator.of(context).push(route);
                               
                              },
                             ),
@@ -117,6 +119,33 @@ class _HomeScreenState extends State<HomeScreen> {
                           
                         ),
 
+                        Card(
+                          shape:RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)
+                          ),
+                          elevation: 4,
+                          child: RaisedButton(
+                              shape:RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)
+                          ),
+                          elevation: 4,
+                            color: Color(0xFF009688),
+                            
+                            child: Ink.image(image: AssetImage('images/inventario.png'), height: 100, alignment: Alignment.center, 
+                           ) , 
+
+                            
+                             onPressed: (){
+                               
+                               Route route = MaterialPageRoute(builder: (bc) => Inventario());
+                               Navigator.of(context).push(route);
+                              
+                             },
+                            ),
+
+                           
+                          
+                        ),
                         
                          
 

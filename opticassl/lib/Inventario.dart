@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:opticassl/EditarInventario.dart';
 import 'package:opticassl/Menu.dart';
+import 'package:opticassl/NuevoProducto.dart';
 
 
 class Inventario extends StatefulWidget {
@@ -36,7 +38,10 @@ class _Inventario extends State<Inventario> {
       ),
      
      floatingActionButton: FloatingActionButton(child: Icon(Icons.add),
-     onPressed: (){},
+     onPressed: (){
+       Route route = MaterialPageRoute(builder: (bc) => NuevoProducto());
+                               Navigator.of(context).push(route);
+     },
      ),
     );
   }
@@ -99,6 +104,7 @@ class _Inventario extends State<Inventario> {
                 ],)),     
         ),
         SizedBox(height: 10,),
+        
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Container(child: Text("${doc.data['Codigo']}",
@@ -107,6 +113,21 @@ class _Inventario extends State<Inventario> {
         SizedBox(height: 10,),
         Container(child: Text("   Optica SL \u00B7 Sucursal 1   ",
           style: TextStyle(color: Colors.black54, fontSize: 18.0,fontWeight: FontWeight.bold),)),
+          Container(child: Visibility( 
+                              child: IconButton( icon: Icon(Icons.arrow_forward_ios), onPressed: (){
+          Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => HomeScreen()),
+    
+  );
+
+        }),
+        maintainInteractivity: true,
+        maintainSize: true, 
+  maintainAnimation: true,
+        maintainState: true,
+        visible: true,
+        )   ),
       ],
     );
   }
@@ -136,7 +157,12 @@ class _Inventario extends State<Inventario> {
 
         }),
         Text('Inventario', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),),
-        IconButton(icon: Icon(Icons.storage), onPressed: (){}),
+        IconButton(icon: Icon(Icons.edit), onPressed: (){
+          Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => EditarInventario()),
+  );
+        }),
       ],),
     ),
   );

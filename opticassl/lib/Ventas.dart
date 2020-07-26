@@ -17,11 +17,14 @@ TextEditingController _textTelefono = TextEditingController();
 TextEditingController _textGraduacion = TextEditingController();
 TextEditingController _textDireccion = TextEditingController();
 TextEditingController _textCosto = TextEditingController();
+TextEditingController _textCantidad = TextEditingController();
 String id;
 final db = Firestore.instance;
 var selectedCurrency, selectedType;
-
-
+dynamic cantidadInventario;
+String productoInventario;
+int cont;
+dynamic cantidad;
 
 TextFormField buildTextFormFieldNombre() {
 
@@ -82,6 +85,27 @@ TextFormField buildTextFormFieldNombre() {
                  ),
                  prefixIcon: Icon(Icons.phone),
                  hintText: "Teléfono",
+                 filled: true,
+                 fillColor: Colors.grey[200]
+            ),
+             
+            );
+  }
+  TextFormField buildTextFormFieldCantidad() {
+     return TextFormField(
+                keyboardType: TextInputType.number,
+                controller: _textCantidad,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                 borderSide: BorderSide(color: Color(0xFF009688)),
+                 borderRadius: BorderRadius.all(Radius.circular(30))
+              ),
+              focusedBorder: OutlineInputBorder(
+                 borderSide: BorderSide(color: Colors.transparent),
+                 borderRadius: BorderRadius.all(Radius.circular(30))
+                 ),
+                 prefixIcon: Icon(Icons.storage),
+                 hintText: "Cantidad",
                  filled: true,
                  fillColor: Colors.grey[200]
             ),
@@ -281,6 +305,10 @@ class _VentasState extends State<Ventas> {
           Form(
             child: buildTextFormFieldCosto(),
             ),
+            SizedBox(height: 20.0,),
+          Form(
+            child: buildTextFormFieldCantidad(),
+            ),
           SizedBox(height: 20.0,),
           Form(
              child:LiteRollingSwitch(
@@ -336,12 +364,14 @@ class _VentasState extends State<Ventas> {
     ),
             onPressed: () {
                  createData();
+                 actualizarInventario();
                  _textApellidos.text = "";
                  _textCosto.text = "";
                  _textDireccion.text = "";
                  _textFieldController.text = "";
                  _textGraduacion.text ="";
                  _textTelefono.text="";
+                 _textCantidad.text="";
                  _displayDialog(context);
             },
 ),
@@ -396,6 +426,7 @@ void createData() async {
   graduacion = double.parse(_textGraduacion.text);
   telefono = double.parse(_textTelefono.text);
   total = double.parse(_textCosto.text);
+  cantidad = double.parse(_textCantidad.text);
   
       DateTime now = DateTime.now();
       String fecha = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
@@ -447,7 +478,7 @@ void createData() async {
       {
         pendiente = true;
         saldo = total;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia), 'Graduacion': graduacion, 'Telefono': telefono, 'Direccion': direccion});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia), 'Graduacion': graduacion, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad});
       setState(() => id = ref.documentID);
 
 
@@ -455,7 +486,7 @@ void createData() async {
 
       else {
         pendiente = false;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'Graduacion': graduacion, 'Telefono': telefono, 'Direccion': direccion});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'Graduacion': graduacion, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad});
       setState(() => id = ref.documentID); 
       }
 
@@ -474,7 +505,7 @@ void createData() async {
                                                               child: ListBody(
                                                                 children: <Widget>[
                                                                   Image.asset(
-                                                                      "images/wrong.gif",
+                                                                      "images/done.gif",
                                                                       height: 125.0,
                                                                       width: 125.0,
                                                                     )
@@ -494,6 +525,39 @@ void createData() async {
           );
         });
   }
+   void actualizarInventario() async
+ {
+   cont = 0;
+   db
+      .collection("Inventario")
+      .where("Nombre", isEqualTo: selectedCurrency)
+      .snapshots()
+      .listen((result) {
+    result.documents.forEach((result) {
+      productoInventario = result.data['Cantidad'].toString();
+      cantidadInventario = double.parse(productoInventario);
+   if(pendiente==true)
+   {
+     cantidadInventario -= cantidad;
+     cont++;
+     if(cont == 1)
+     {
+         db.collection('Inventario').document('$selectedCurrency').updateData({'Cantidad': cantidadInventario});
+     }
+   }
+   else
+   {
+    cantidadInventario -= cantidad;
+     cont++;
+     if(cont == 1)
+     {
+         db.collection('Inventario').document('$selectedCurrency').updateData({'Cantidad': cantidadInventario});
+     }
+   }
+    });
+  });
+  
+ }
  
 }
 

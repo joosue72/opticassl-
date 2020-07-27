@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:opticassl/Inventario.dart';
 import 'package:opticassl/Ventas.dart';
 
+import 'Grafica_Ventas/venta_grafica.dart';
+
 
 
 
@@ -146,7 +148,33 @@ class _HomeScreenState extends State<HomeScreen> {
                            
                           
                         ),
-                        
+                        Card(
+                          shape:RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)
+                          ),
+                          elevation: 4,
+                          child: RaisedButton(
+                              shape:RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)
+                          ),
+                          elevation: 4,
+                            color: Color(0xFF009688),
+                            
+                            child: Ink.image(image: AssetImage('images/inventario.png'), height: 100, alignment: Alignment.center, 
+                           ) , 
+
+                            
+                             onPressed: (){
+                               
+                               Route route = MaterialPageRoute(builder: (bc) => venta_grafica());
+                               Navigator.of(context).push(route);
+                              
+                             },
+                            ),
+
+                           
+                          
+                        ),
                          
 
                        

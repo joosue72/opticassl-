@@ -433,7 +433,31 @@ void createData() async {
       String mes = DateFormat('MMM').format(now);
       String dia = DateFormat('d').format(now);
       int numerofecha;
+      int currentPage2 = DateTime.now().day;
+      int semana;
 
+      if(currentPage2 <= 7)
+      {
+
+        semana = 1;
+      }
+      
+      if(currentPage2 <= 14)
+      {
+        semana = 2;
+      }
+      
+      if(currentPage2 <= 21)
+      {
+        semana = 3;
+      }
+      
+      if(currentPage2 > 21)
+      {
+        semana = 4;
+      }
+
+     
 
       switch(mes)
       {
@@ -478,7 +502,7 @@ void createData() async {
       {
         pendiente = true;
         saldo = total;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia), 'Graduacion': graduacion, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha, 'Semana': semana,'Dia': int.parse(dia), 'Graduacion': graduacion, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad});
       setState(() => id = ref.documentID);
 
 
@@ -486,7 +510,7 @@ void createData() async {
 
       else {
         pendiente = false;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'Graduacion': graduacion, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'Graduacion': graduacion, 'Semana': semana, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad});
       setState(() => id = ref.documentID); 
       }
 

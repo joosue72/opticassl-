@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'Login.dart';
+import 'Grafica_Ventas/details_page.dart';
 
 
 
@@ -10,7 +11,14 @@ void main() {
   runApp(new MaterialApp(
   debugShowCheckedModeBanner: false,
   home: MyApp(),
-  
+  onGenerateRoute: (settings) {
+         if(settings.name == '/details'){
+           DetailsPage params = settings.arguments;
+           return MaterialPageRoute(builder: (BuildContext context){
+             return DetailsParams(params: params,);});
+         }
+
+        }
 ));
 }
 
@@ -30,7 +38,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     Future.delayed(
       
-    Duration(seconds: 3),
+    Duration(seconds: 4),
     (){
       Navigator.push(
         context,

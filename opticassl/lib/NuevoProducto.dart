@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:opticassl/Inventario.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 
  class NuevoProducto extends StatefulWidget {
@@ -18,6 +19,8 @@ final db = Firestore.instance;
   TextEditingController _textFieldController = TextEditingController();
   TextEditingController _textCodigo = TextEditingController();
   TextEditingController _textCantidad = TextEditingController();
+  int _currentValue = 1;
+
 
 class _NuevoProductoState extends State<NuevoProducto> {
 
@@ -91,6 +94,7 @@ class _NuevoProductoState extends State<NuevoProducto> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +119,24 @@ class _NuevoProductoState extends State<NuevoProducto> {
           SizedBox(height: 20.0,),
           Form(
             child: buildTextFormFieldCodigo(),
+          ),
+          SizedBox(height: 20.0,),
+          Form(
+            
+            child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new NumberPicker.integer(
+                
+                initialValue: _currentValue,
+                minValue: 1,
+                maxValue: 10,
+                onChanged: (newValue) =>
+                    setState(() => _currentValue = newValue)),
+            new Text("Sucursal: $_currentValue",style: TextStyle(color: Colors.white),),
+          ],
+        ),
+      
           ),
           SizedBox(height: 50.0),
           ButtonTheme(
@@ -150,7 +172,7 @@ class _NuevoProductoState extends State<NuevoProducto> {
                                producto = _textFieldController.text.toString();
                                cantidad = double.parse(_textCantidad.text);
                                codigo = _textCodigo.text.toString();
-                               Firestore.instance.collection('Inventario').document("$producto").setData({'Nombre': '$producto', 'Cantidad': cantidad, 'Codigo': '$codigo'});   
+                               Firestore.instance.collection('Inventario').document("$producto").setData({'Nombre': '$producto', 'Cantidad': cantidad, 'Codigo': '$codigo', 'Sucursal': _currentValue});   
                                _textCantidad.text ="";
                                _textCodigo.text="";
                                _textFieldController.text="";                     

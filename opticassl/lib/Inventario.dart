@@ -113,21 +113,7 @@ class _Inventario extends State<Inventario> {
         SizedBox(height: 10,),
         Container(child: Text("   Optica SL \u00B7 Sucursal 1   ",
           style: TextStyle(color: Colors.black54, fontSize: 18.0,fontWeight: FontWeight.bold),)),
-          Container(child: Visibility( 
-                              child: IconButton( icon: Icon(Icons.arrow_forward_ios), onPressed: (){
-          Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomeScreen()),
-    
-  );
-
-        }),
-        maintainInteractivity: true,
-        maintainSize: true, 
-  maintainAnimation: true,
-        maintainState: true,
-        visible: true,
-        )   ),
+          
       ],
     );
   }

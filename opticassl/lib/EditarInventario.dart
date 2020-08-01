@@ -102,7 +102,11 @@ class _EditarInventarioState extends State<EditarInventario> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
         children: <Widget>[
-           
+           Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Container(child: Text("${doc.data['Nombre']}",
+            style: TextStyle(color: Colors.white, fontSize: 24.0,fontWeight: FontWeight.bold),)),
+        ),
            SizedBox(height: 10.0,),
            Form(child: buildTextFormFieldCantidad(doc)),
            SizedBox(height: 10.0,),

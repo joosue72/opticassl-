@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:intl/intl.dart';
 import 'package:opticassl/Menu.dart';
-
+import 'package:numberpicker/numberpicker.dart';
+import 'package:opticassl/VentasPendientes.dart';
 
  class Ventas extends StatefulWidget {
   Ventas({Key key}) : super(key: key);
@@ -14,7 +15,8 @@ import 'package:opticassl/Menu.dart';
 TextEditingController _textFieldController = TextEditingController();
 TextEditingController _textApellidos = TextEditingController();
 TextEditingController _textTelefono = TextEditingController();
-TextEditingController _textGraduacion = TextEditingController();
+TextEditingController _textGraduacionI = TextEditingController();
+TextEditingController _textGraduacionD = TextEditingController();
 TextEditingController _textDireccion = TextEditingController();
 TextEditingController _textCosto = TextEditingController();
 TextEditingController _textCantidad = TextEditingController();
@@ -25,6 +27,7 @@ dynamic cantidadInventario;
 String productoInventario;
 int cont;
 dynamic cantidad;
+int _currentValue = 1;
 
 TextFormField buildTextFormFieldNombre() {
 
@@ -113,11 +116,11 @@ TextFormField buildTextFormFieldNombre() {
             );
   }
 
-  TextFormField buildTextFormFieldGraduacion() {
+  TextFormField buildTextFormFieldGraduacioni() {
 
      return TextFormField(
                 keyboardType: TextInputType.number,
-                controller: _textGraduacion,
+                controller: _textGraduacionI,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                  borderSide: BorderSide(color: Color(0xFF009688)),
@@ -128,7 +131,30 @@ TextFormField buildTextFormFieldNombre() {
                  borderRadius: BorderRadius.all(Radius.circular(30))
                  ),
                  prefixIcon: Icon(Icons.remove_red_eye),
-                 hintText: "Graduación",
+                 hintText: "Graduación Izq.",
+                 filled: true,
+                 fillColor: Colors.grey[200]
+            ),
+             
+            );
+  }
+
+  TextFormField buildTextFormFieldGraduaciond() {
+
+     return TextFormField(
+                keyboardType: TextInputType.number,
+                controller: _textGraduacionD,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                 borderSide: BorderSide(color: Color(0xFF009688)),
+                 borderRadius: BorderRadius.all(Radius.circular(30))
+              ),
+              focusedBorder: OutlineInputBorder(
+                 borderSide: BorderSide(color: Colors.transparent),
+                 borderRadius: BorderRadius.all(Radius.circular(30))
+                 ),
+                 prefixIcon: Icon(Icons.remove_red_eye),
+                 hintText: "Graduación Der.",
                  filled: true,
                  fillColor: Colors.grey[200]
             ),
@@ -295,7 +321,13 @@ class _VentasState extends State<Ventas> {
           
           SizedBox(height: 20.0,),
           Form(
-            child: buildTextFormFieldGraduacion(),
+            child:
+            buildTextFormFieldGraduacioni(), 
+          ),
+          SizedBox(height:20.0,),
+          Form(
+            child:
+            buildTextFormFieldGraduaciond(), 
           ),
           SizedBox(height: 20.0,),
           Form(
@@ -334,6 +366,22 @@ class _VentasState extends State<Ventas> {
     
 ), 
           ),
+          SizedBox(height: 20.0,),
+          Form(
+            child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new NumberPicker.integer(
+                
+                initialValue: _currentValue,
+                minValue: 1,
+                maxValue: 10,
+                onChanged: (newValue) =>
+                    setState(() => _currentValue = newValue)),
+            new Text("Sucursal: $_currentValue",style: TextStyle(color: Colors.white),),
+          ],
+        ),
+          ),
           SizedBox(height: 50.0),
           ButtonTheme(
                 
@@ -369,7 +417,8 @@ class _VentasState extends State<Ventas> {
                  _textCosto.text = "";
                  _textDireccion.text = "";
                  _textFieldController.text = "";
-                 _textGraduacion.text ="";
+                 _textGraduacionI.text ="";
+                 _textGraduacionD.text="";
                  _textTelefono.text="";
                  _textCantidad.text="";
                  _displayDialog(context);
@@ -417,13 +466,14 @@ class _VentasState extends State<Ventas> {
 }
 void createData() async {
   String nombre, apellido, direccion, armazon;
-  dynamic graduacion, telefono, total, saldo;
+  dynamic graduacioni, telefono, total, saldo, graduaciond;
 
   nombre = _textFieldController.text;
   apellido = _textApellidos.text;
   direccion = _textDireccion.text;
-  armazon = _textGraduacion.text;
-  graduacion = double.parse(_textGraduacion.text);
+  
+  graduacioni = double.parse(_textGraduacionI.text);
+  graduaciond = double.parse(_textGraduacionD.text);
   telefono = double.parse(_textTelefono.text);
   total = double.parse(_textCosto.text);
   cantidad = double.parse(_textCantidad.text);
@@ -502,7 +552,7 @@ void createData() async {
       {
         pendiente = true;
         saldo = total;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha, 'Semana': semana,'Dia': int.parse(dia), 'Graduacion': graduacion, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha', 'Pendiente': pendiente, 'Mes': numerofecha, 'Semana': semana,'Dia': int.parse(dia), 'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue});
       setState(() => id = ref.documentID);
 
 
@@ -510,7 +560,7 @@ void createData() async {
 
       else {
         pendiente = false;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': armazon, 'Costo': total, 'Fecha': '$fecha','Producto': '$selectedCurrency', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'Graduacion': graduacion, 'Semana': semana, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total, 'Fecha': '$fecha', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Semana': semana, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue});
       setState(() => id = ref.documentID); 
       }
 
@@ -541,7 +591,11 @@ void createData() async {
               new FlatButton(
                 child: new Text('Guardar'),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                 Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => VentasPendientes()),
+    
+  );
                 },
               
               )

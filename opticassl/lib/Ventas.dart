@@ -32,6 +32,7 @@ int _currentValue = 1;
 TextFormField buildTextFormFieldNombre() {
 
      return TextFormField(
+
                 keyboardType: TextInputType.text,
                 controller: _textFieldController,
             decoration: InputDecoration(
@@ -411,7 +412,42 @@ class _VentasState extends State<Ventas> {
     ],
     ),
             onPressed: () {
-                 createData();
+               
+                if(_textFieldController.text.isEmpty || _textApellidos.text.isEmpty || _textTelefono.text.isEmpty || _textCantidad.text.isEmpty || _textGraduacionI.text.isEmpty|| _textGraduacionD.text.isEmpty || _textDireccion.text.isEmpty || _textCosto.text.isEmpty )
+                {
+
+                    return showDialog<void>(
+                                                        context: context,
+                                                        barrierDismissible: false, // user must tap button!
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialog(
+                                                            title: Text('Llena todos los datos', textAlign: TextAlign.center),
+                                                            content: SingleChildScrollView(
+                                                              child: ListBody(
+                                                                children: <Widget>[
+                                                                  Image.asset(
+                                                                      "images/wrong.gif",
+                                                                      height: 125.0,
+                                                                      width: 125.0,
+                                                                    )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            actions: <Widget>[
+                                                              FlatButton(
+                                                                child: Text('Approve'),
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+
+                }
+                else{
+                createData();
                  actualizarInventario();
                  String apellido;
                  apellido = _textApellidos.text;
@@ -425,6 +461,8 @@ class _VentasState extends State<Ventas> {
                  _textTelefono.text="";
                  _textCantidad.text="";
                  _displayDialog(context);
+                }
+                
             },
 ),
               ),

@@ -413,6 +413,9 @@ class _VentasState extends State<Ventas> {
             onPressed: () {
                  createData();
                  actualizarInventario();
+                 String apellido;
+                 apellido = _textApellidos.text;
+                 Firestore.instance.collection('NombreClientes').document("$nombre"+"$apellido").setData({'NombreCliente': '$nombre'});
                  _textApellidos.text = "";
                  _textCosto.text = "";
                  _textDireccion.text = "";

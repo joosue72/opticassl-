@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:opticassl/Inventario.dart';
+import 'package:OpticaSl/Inventario.dart';
 
 
 

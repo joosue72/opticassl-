@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:opticassl/Menu.dart';
-import 'package:opticassl/Ventas.dart';
+import 'package:OpticaSl/Menu.dart';
+import 'package:OpticaSl/Ventas.dart';
 import 'venta_widget.dart';
 
 class venta_grafica extends StatefulWidget {

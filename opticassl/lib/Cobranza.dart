@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:opticassl/HistorialCobranzas.dart';
-import 'package:opticassl/Menu.dart';
+import 'package:OpticaSl/HistorialCobranzas.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:intl/intl.dart';
 

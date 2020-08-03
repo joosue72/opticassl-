@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:opticassl/Animation/FadeAnimation.dart';
+import 'package:OpticaSl/Animation/FadeAnimation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:opticassl/Menu.dart';
+import 'package:OpticaSl/Menu.dart';
 
 final myController = TextEditingController();
     final db = Firestore.instance;

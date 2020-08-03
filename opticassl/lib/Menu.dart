@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:opticassl/Agendas.dart';
-import 'package:opticassl/Cobranza.dart';
-import 'package:opticassl/HistorialClientes.dart';
-import 'package:opticassl/HistorialCobranzas.dart';
-import 'package:opticassl/Inventario.dart';
-import 'package:opticassl/Ventas.dart';
-import 'package:opticassl/VentasPendientes.dart';
+import 'package:OpticaSl/Agendas.dart';
+import 'package:OpticaSl/Cobranza.dart';
+import 'package:OpticaSl/HistorialClientes.dart';
+import 'package:OpticaSl/HistorialCobranzas.dart';
+import 'package:OpticaSl/Inventario.dart';
+import 'package:OpticaSl/Ventas.dart';
+import 'package:OpticaSl/VentasPendientes.dart';
 
 import 'Grafica_Ventas/venta_grafica.dart';
 

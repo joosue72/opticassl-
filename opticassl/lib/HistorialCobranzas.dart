@@ -1,11 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+import 'package:OpticaSl/Cobranza.dart';
 import 'package:OpticaSl/Menu.dart';
+import 'package:intl/intl.dart';
 
- String id;
+String id;
   final db = Firestore.instance;
   String nombre, nombre1, apellido1, nombrecompleto;
   DateTime now = DateTime.now();
@@ -15,25 +14,51 @@ import 'package:OpticaSl/Menu.dart';
   dynamic total;
   dynamic total2;
   dynamic pagoactual;
+      String mes = DateFormat('MMM').format(now);
+      String dia = DateFormat('d').format(now);
 
-class VentasPendientes extends StatefulWidget {
-  VentasPendientes({Key key}) : super(key: key);
+ class HistorialCobranzas extends StatefulWidget {
+  HistorialCobranzas({Key key}) : super(key: key);
 
   @override
-  _VentasPendientesState createState() => _VentasPendientesState();
+  _HistorialCobranzasState createState() => _HistorialCobranzasState();
 }
 
-class _VentasPendientesState extends State<VentasPendientes> {
+class _HistorialCobranzasState extends State<HistorialCobranzas> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _getCustomAppBar(),
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+           StreamBuilder<QuerySnapshot>(
+            stream: db.collection('Cobranza').where("Dia", isEqualTo: int.parse(dia)).where("Mes", isEqualTo: mes).snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(children: snapshot.data.documents.map((doc) => buildItem(doc)).toList());
+              } else {
+                return SizedBox();
+              }
+            },
+          ),
+        ],
+      ),
+     
+     floatingActionButton: FloatingActionButton(child: Icon(Icons.add),
+     onPressed: (){
+       Route route = MaterialPageRoute(builder: (bc) => Cobranza());
+                               Navigator.of(context).push(route);
+     },
+     ),
+    );
+  }
 
-  TextEditingController _textFieldController = TextEditingController();
+   _displayDialog(BuildContext context, DocumentSnapshot doc) async {
 
-  _displayDialog(BuildContext context, DocumentSnapshot doc) async {
-
-    nombre1 = doc.data['Nombre'];
-    apellido1 = doc.data['Apellidos'];
-    nombrecompleto = nombre1+" "+apellido1;
     
-
+    TextEditingController _textFieldController = TextEditingController();
     return showDialog(
         context: context,
         builder: (context) {
@@ -42,7 +67,7 @@ class _VentasPendientesState extends State<VentasPendientes> {
             content: TextField(
               keyboardType: TextInputType.number,
               controller: _textFieldController,
-              decoration: InputDecoration(suffixText:'${doc.data['Saldo']}'), 
+              decoration: InputDecoration(suffixText:'${doc.data['TotalCobranza']}'), 
             ),
             actions: <Widget>[
               new FlatButton(
@@ -53,8 +78,8 @@ class _VentasPendientesState extends State<VentasPendientes> {
                   Navigator.of(context).pop();
                   
                   updateCantidad(doc);
-                  pagoactual = double.parse(_textFieldController.text);
-                  Firestore.instance.collection('HistorialClientes').add({'Nombre': '$nombrecompleto', 'Filtrar': '$nombre1','Fecha': '$fecha', 'Pago': pagoactual});
+
+
                 },
               
               )
@@ -62,6 +87,8 @@ class _VentasPendientesState extends State<VentasPendientes> {
           );
         });
   }
+
+ 
 
    Card buildItem(DocumentSnapshot doc) {
     
@@ -87,31 +114,28 @@ class _VentasPendientesState extends State<VentasPendientes> {
           children: <Widget>[
             
            const ListTile(
-            title: Text('           Pendiente', style: TextStyle(color: Color(0xFF009688),)),
-            leading: Icon(Icons.timer, size: 30, color: Color(0xFF009688),),
+            title: Text('           Nota', style: TextStyle(color: Color(0xFF009688),)),
+            leading: Icon(Icons.note, size: 30, color: Color(0xFF009688),),
           ),
             Text(
               
-              '${doc.data['Nombre']} ${doc.data['Apellidos']}           ${doc.data['Armazon']} ',
+              'Numero De Notas:          ${doc.data['CantidadNotas']} ',
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
+            
             Text(
-              'Direccion: ${doc.data['Direccion']}',
-              style: TextStyle(fontSize: 16, color: Colors.white),
-            ),
-            Text(
-              'Saldo: ${doc.data['Saldo'].toStringAsFixed(2)} \$',
+              'Total: ${doc.data['TotalCobranza'].toStringAsFixed(2)} \$',
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             SizedBox(height: 10.0),
             new Container(
-  margin: const EdgeInsets.all(15.0),
+  margin: const EdgeInsets.all(10.0),
   padding: const EdgeInsets.all(3.0),
   decoration: BoxDecoration(
     
     border: Border.all(color: Color(0xFF011579B))
   ),
-  child: Text('          ${doc.data['Fecha']}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),),
+  child: Text('          $fecha', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),),
 ),
             
             SizedBox(height: 12),
@@ -140,7 +164,7 @@ class _VentasPendientesState extends State<VentasPendientes> {
     ),
   ),
 ),
-                SizedBox(width: 8),
+SizedBox(width: 8),
                SizedBox.fromSize(
   size: Size(100, 40), // button width and height
   child: ClipRRect(
@@ -165,29 +189,7 @@ class _VentasPendientesState extends State<VentasPendientes> {
     ),
   ),
 ),
-SizedBox(width: 8),
-               SizedBox.fromSize(
-  size: Size(100, 40), // button width and height
-  child: ClipRRect(
-    child: Material(
-      shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(5.0),
-    ),
-      color: Color(0xFFFF1744), // button color
-      child: InkWell(
-        splashColor: Colors.green, // splash color
-        onTap:  () => showAlertDialog(context, doc), // button pressed
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(Icons.delete), // icon
-            Text("Borrar", style: TextStyle(color: Colors.black)), // text
-          ],
-        ),
-      ),
-    ),
-  ),
-)
+
               ],
             )
           ],
@@ -196,35 +198,7 @@ SizedBox(width: 8),
     );
   }
 
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _getCustomAppBar(),
-      backgroundColor: Color(0xFF009688),
-        body: ListView(
-        padding: EdgeInsets.all(8),
-        children: <Widget>[
-          
-             StreamBuilder<QuerySnapshot>(
-            stream: db.collection('VentasSucursal1').where("Pendiente", isEqualTo: true).snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(children: snapshot.data.documents.map((doc) => buildItem(doc)).toList());
-              } else {
-                return SizedBox();
-              }
-            },
-          ),
-            ],
-          ),
-         
-
-
-     );
-  }
-
-   _getCustomAppBar(){
+ _getCustomAppBar(){
   return PreferredSize(
     preferredSize: Size.fromHeight(60),
     child: Container(
@@ -249,70 +223,23 @@ SizedBox(width: 8),
   );
 
         }),
-        Text('Ventas Pendientes', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),),
+        Text('Cobranzas Del Dia', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),),
         IconButton(icon: Icon(Icons.access_time), onPressed: (){}),
       ],),
     ),
   );
 }
-
  void updateData(DocumentSnapshot doc) async {
-    total = doc.data['Saldo'];
-    total2 = doc.data['Costo'];
-
-    total2 += total;
-    await db.collection('VentasSucursal1').document(doc.documentID).updateData({'Pendiente': false, 'Costo':total2, 'Saldo': 0});
+    await db.collection('Cobranza').document(doc.documentID).updateData({'TotalCobranza': 0});
   }
+   void updateCantidad(DocumentSnapshot doc) async {
+    total = doc.data['TotalCobranza'];
 
-  void updateCantidad(DocumentSnapshot doc) async {
-    total = doc.data['Saldo'];
-    total2 = doc.data['Costo'];
     
     total -= obtcosto;
-    total2 += obtcosto;
-    await db.collection('VentasSucursal1').document(doc.documentID).updateData({'Saldo': total, 'Costo':total2});
+
+    await db.collection('Cobranza').document(doc.documentID).updateData({'TotalCobranza': total});
   
     
   }
-
-  void deleteData(DocumentSnapshot doc) async {
-    await db.collection('VentasSucursal1').document(doc.documentID).delete();
-    setState(() => id = null);
-  }
-
-showAlertDialog(BuildContext context, DocumentSnapshot doc) {
-
-  // set up the buttons
-  Widget cancelButton = FlatButton(
-    child: Text("Cancelar"),
-    onPressed:  () {
-      Navigator.of(context).pop();
-    },
-  );
-  Widget continueButton = FlatButton(
-    child: Text("Borrar"),
-    onPressed:  () {
-      deleteData(doc);
-      Navigator.of(context).pop();
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Alerta!"),
-    content: Text("¿Estás seguro de que quieres eliminar esta venta?"),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
 }

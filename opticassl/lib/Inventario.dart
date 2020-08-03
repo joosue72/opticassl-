@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:opticassl/EditarInventario.dart';
-import 'package:opticassl/Menu.dart';
-import 'package:opticassl/NuevoProducto.dart';
+import 'package:OpticaSl/EditarInventario.dart';
+import 'package:OpticaSl/Menu.dart';
+import 'package:OpticaSl/NuevoProducto.dart';
 
 
 class Inventario extends StatefulWidget {

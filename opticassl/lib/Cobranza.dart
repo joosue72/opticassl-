@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:OpticaSl/Inventario.dart';
+import 'package:OpticaSl/HistorialCobranzas.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:intl/intl.dart';
 
 
- class NuevoProducto extends StatefulWidget {
-  NuevoProducto({Key key}) : super(key: key);
+
+ class Cobranza extends StatefulWidget {
+  Cobranza({Key key}) : super(key: key);
 
   @override
-  _NuevoProductoState createState() => _NuevoProductoState();
+  _CobranzaState createState() => _CobranzaState();
 }
 
 final db = Firestore.instance;
   String id;
   String producto;
   dynamic  cantidad;
-  String codigo;
+  dynamic codigo;
   TextEditingController _textFieldController = TextEditingController();
   TextEditingController _textCodigo = TextEditingController();
   TextEditingController _textCantidad = TextEditingController();
   int _currentValue = 1;
 
-
-class _NuevoProductoState extends State<NuevoProducto> {
+class _CobranzaState extends State<Cobranza> {
 
   TextFormField buildTextFormFieldNombre() {
   
@@ -38,8 +39,8 @@ class _NuevoProductoState extends State<NuevoProducto> {
                  borderSide: BorderSide(color: Colors.transparent),
                  borderRadius: BorderRadius.all(Radius.circular(30))
                  ),
-                 prefixIcon: Icon(Icons.add_box),
-                 hintText: "Producto",
+                 prefixIcon: Icon(Icons.note),
+                 hintText: "Numero De Nota",
                  filled: true,
                  fillColor: Colors.grey[200]
             ),
@@ -62,7 +63,7 @@ class _NuevoProductoState extends State<NuevoProducto> {
                  borderRadius: BorderRadius.all(Radius.circular(30))
                  ),
                  prefixIcon: Icon(Icons.storage),
-                 hintText: "Cantidad",
+                 hintText: "Cantidad De Notas",
                  filled: true,
                  fillColor: Colors.grey[200]
             ),
@@ -84,15 +85,14 @@ class _NuevoProductoState extends State<NuevoProducto> {
                  borderSide: BorderSide(color: Colors.transparent),
                  borderRadius: BorderRadius.all(Radius.circular(30))
                  ),
-                 prefixIcon: Icon(Icons.code),
-                 hintText: "Codigo",
+                 prefixIcon: Icon(Icons.attach_money),
+                 hintText: "Total",
                  filled: true,
                  fillColor: Colors.grey[200]
             ),
              
             );
   }
-
 
 
   @override
@@ -167,15 +167,7 @@ class _NuevoProductoState extends State<NuevoProducto> {
     ],
     ),
             onPressed: () {
-                 Route route = MaterialPageRoute(builder: (bc) => Inventario());
-                               Navigator.of(context).push(route);
-                               producto = _textFieldController.text.toString();
-                               cantidad = double.parse(_textCantidad.text);
-                               codigo = _textCodigo.text.toString();
-                               Firestore.instance.collection('Inventario').document("$producto").setData({'Nombre': '$producto', 'Cantidad': cantidad, 'Codigo': '$codigo', 'Sucursal': _currentValue});   
-                               _textCantidad.text ="";
-                               _textCodigo.text="";
-                               _textFieldController.text="";                     
+                crateData();                                
             },
 ),
               ),
@@ -208,15 +200,34 @@ class _NuevoProductoState extends State<NuevoProducto> {
         IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: (){
           Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => Inventario()),
+    MaterialPageRoute(builder: (context) => HistorialCobranzas()),
     
   );
 
         }),
-        Text('Crear Producto', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),),
+        Text('Nueva Cobranza', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),),
         IconButton(icon: Icon(Icons.add_box), onPressed: (){}),
       ],),
     ),
   );
 }
+
+void crateData() async
+{
+      DateTime now = DateTime.now();
+      String mes = DateFormat('MMM').format(now);
+      String dia = DateFormat('d').format(now);
+      int numerofecha;
+
+
+  
+                               producto = _textFieldController.text.toString();
+                               cantidad = double.parse(_textCantidad.text);
+                               codigo = double.parse(_textCodigo.text);
+                               Firestore.instance.collection('Cobranza').add({'NumeroNota': '$producto', 'CantidadNotas': cantidad, 'TotalCobranza': codigo, 'Sucursal': _currentValue, 'Dia': int.parse(dia), 'Mes': mes});   
+                               _textCantidad.text ="";
+                               _textCodigo.text="";
+                               _textFieldController.text="";
+}
+
 }

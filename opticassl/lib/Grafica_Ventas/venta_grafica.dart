@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:opticassl/Menu.dart';
-import 'package:opticassl/Ventas.dart';
+import 'package:OpticaSl/Menu.dart';
+import 'package:OpticaSl/Ventas.dart';
 import 'venta_widget.dart';
 
 class venta_grafica extends StatefulWidget {
@@ -202,10 +202,10 @@ class _venta_graficaState extends State<venta_grafica> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
         IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: (){
-     //     Navigator.push(
-   // context,
- //   MaterialPageRoute(builder: (context) => MenuGrafica()),
- // );
+       Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => HomeScreen()),
+ );
 
         }),
         Text('Lista Ventas', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),),

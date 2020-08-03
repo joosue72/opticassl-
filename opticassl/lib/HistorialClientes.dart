@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:OpticaSl/Inventario.dart';
+import 'package:OpticaSl/Menu.dart';
 
 
 
 
- class EditarInventario extends StatefulWidget {
-  EditarInventario({Key key}) : super(key: key);
+
+ class HistorialClientes extends StatefulWidget {
+  HistorialClientes({Key key}) : super(key: key);
 
   @override
-  _EditarInventarioState createState() => _EditarInventarioState();
+  _HistorialClientesState createState() => _HistorialClientesState();
 }
 
 TextEditingController _textCosto = TextEditingController();
-TextEditingController _textCodigo = TextEditingController();
+TextEditingController _textBuscador = TextEditingController();
+final myController = TextEditingController();
 String id;
 final db = Firestore.instance;
 var selectedCurrency, selectedType;
+String buscar;
+class _HistorialClientesState extends State<HistorialClientes> {
 
-
-class _EditarInventarioState extends State<EditarInventario> {
+  
 
   TextFormField buildTextFormFieldCosto(DocumentSnapshot doc) {
 
@@ -36,51 +39,7 @@ class _EditarInventarioState extends State<EditarInventario> {
                  borderRadius: BorderRadius.all(Radius.circular(30))
                  ),
                  prefixIcon: Icon(Icons.remove_red_eye),
-                 prefixText: "${doc.data['Nombre']}",
-                 filled: true,
-                 fillColor: Colors.grey[200]
-            ),
-             
-            );
-  }
-  TextFormField buildTextFormFieldCantidad(DocumentSnapshot doc) {
-
-     return TextFormField(
-                keyboardType: TextInputType.number,
-                controller: _textCosto,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                 borderSide: BorderSide(color: Color(0xFF009688)),
-                 borderRadius: BorderRadius.all(Radius.circular(30))
-              ),
-              focusedBorder: OutlineInputBorder(
-                 borderSide: BorderSide(color: Colors.transparent),
-                 borderRadius: BorderRadius.all(Radius.circular(30))
-                 ),
-                 prefixIcon: Icon(Icons.storage),
-                 hintText: "${doc.data['Cantidad']}",
-                 filled: true,
-                 fillColor: Colors.grey[200]
-            ),
-             
-            );
-  }
-  TextFormField buildTextFormFieldCodigo(DocumentSnapshot doc) {
-
-     return TextFormField(
-                keyboardType: TextInputType.number,
-                controller: _textCodigo,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                 borderSide: BorderSide(color: Color(0xFF009688)),
-                 borderRadius: BorderRadius.all(Radius.circular(30))
-              ),
-              focusedBorder: OutlineInputBorder(
-                 borderSide: BorderSide(color: Colors.transparent),
-                 borderRadius: BorderRadius.all(Radius.circular(30))
-                 ),
-                 prefixIcon: Icon(Icons.code),
-                 hintText: "${doc.data['Codigo']}",
+                 hintText: "${doc.data['Pago']}",
                  filled: true,
                  fillColor: Colors.grey[200]
             ),
@@ -89,8 +48,8 @@ class _EditarInventarioState extends State<EditarInventario> {
   }
 
   
-  
-  Card crearCarta(DocumentSnapshot doc)
+
+   Card crearCarta(DocumentSnapshot doc)
   {
     return Card(
       shape: RoundedRectangleBorder(
@@ -106,10 +65,15 @@ class _EditarInventarioState extends State<EditarInventario> {
           child: Container(child: Text("${doc.data['Nombre']}",
             style: TextStyle(color: Colors.white, fontSize: 24.0,fontWeight: FontWeight.bold),)),
         ),
+        SizedBox(height: 10.0,),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Container(child: Text("${doc.data['Fecha']}",
+            style: TextStyle(color: Colors.white, fontSize: 18.0,fontWeight: FontWeight.bold),)),
+        ),
            SizedBox(height: 10.0,),
-           Form(child: buildTextFormFieldCantidad(doc)),
-           SizedBox(height: 10.0,),
-           Form(child: buildTextFormFieldCodigo(doc)),
+           Form(child: buildTextFormFieldCosto(doc)),
+           
            SizedBox(height: 15.0,),
            Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -143,9 +107,9 @@ class _EditarInventarioState extends State<EditarInventario> {
     ],
     ),
             onPressed: () {
-                 //Route route = MaterialPageRoute(builder: (bc) => VentasPendientes());
-                               //Navigator.of(context).push(route);
+                 
                                updateCantidad(doc);
+                               _textCosto.text="";
                                           
             },
 ),
@@ -197,35 +161,31 @@ class _EditarInventarioState extends State<EditarInventario> {
     
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
+   return Scaffold(
+      backgroundColor: Colors.white,
       appBar: _getCustomAppBar(),
-      body: ListView(
+       body: ListView(
         padding: EdgeInsets.all(8),
         children: <Widget>[
           
-          
-          SizedBox(height: 20.0,),
-          
-          StreamBuilder<QuerySnapshot>(
-            
-            stream: db.collection('Inventario').where("Nombre", isEqualTo: selectedCurrency).snapshots(),
+            SizedBox(height: 15.0,),
+             StreamBuilder<QuerySnapshot>(
+             stream: db.collection('HistorialClientes').orderBy('Nombre').limit(50).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(children: snapshot.data.documents.map((doc) => crearCarta(doc)).toList());
-                
               } else {
                 return SizedBox();
               }
             },
           ),
-        ],
-      ),
+            ],
+          ),
     );
   }
+
   _getCustomAppBar(){
   return PreferredSize(
     preferredSize: Size.fromHeight(60),
@@ -247,12 +207,12 @@ class _EditarInventarioState extends State<EditarInventario> {
         IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: (){
           Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => Inventario()),
+    MaterialPageRoute(builder: (context) => HomeScreen()),
   );
 
         }),
-        Text('Editar Inventario', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),),
-        IconButton(icon: Icon(Icons.edit), onPressed: (){}),
+        Text('Historial Clientes', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),),
+        IconButton(icon: Icon(Icons.history), onPressed: (){}),
       ],),
     ),
   );
@@ -261,34 +221,35 @@ class _EditarInventarioState extends State<EditarInventario> {
 void updateCantidad(DocumentSnapshot doc) async {
     
     dynamic cantidad;
-    String codigo;
+    
     cantidad = double.parse(_textCosto.text);
-    codigo = _textCodigo.text.toString();
+    
 
 
-    await db.collection('Inventario').document(doc.documentID).updateData({ 'Cantidad':cantidad, 'Codigo': '$codigo'});
+    await db.collection('HistorialClientes').document(doc.documentID).updateData({ 'Pago':cantidad});
   
     
   }
 
-  void deleteData(DocumentSnapshot doc) async {
-    await db.collection('Inventario').document(doc.documentID).delete();
-    setState(() => id = null);
-  }
-
-  void mostrarData(DocumentSnapshot doc) async{
+  void filtrarDatos()
+  {
     StreamBuilder<QuerySnapshot>(
-            
-            stream: db.collection('Inventario').snapshots(),
+            stream: db.collection('HistorialClientes').where("Filtrar", isEqualTo: _textBuscador ).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(children: snapshot.data.documents.map((doc) => crearCarta(doc)).toList());
-                
               } else {
                 return SizedBox();
               }
             },
           );
   }
+
+  void deleteData(DocumentSnapshot doc) async {
+    await db.collection('HistorialClientes').document(doc.documentID).delete();
+    setState(() => id = null);
+  }
+
+  
 
 }

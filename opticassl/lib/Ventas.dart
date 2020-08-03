@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:intl/intl.dart';
-import 'package:opticassl/Menu.dart';
+import 'package:OpticaSl/Menu.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:opticassl/VentasPendientes.dart';
+import 'package:OpticaSl/VentasPendientes.dart';
 
  class Ventas extends StatefulWidget {
   Ventas({Key key}) : super(key: key);
@@ -506,7 +506,7 @@ class _VentasState extends State<Ventas> {
   );
 }
 void createData() async {
-  String nombre, apellido, direccion, armazon;
+  String nombre, apellido, direccion;
   dynamic graduacioni, telefono, total, saldo, graduaciond;
 
   nombre = _textFieldController.text;

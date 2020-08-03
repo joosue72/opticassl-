@@ -506,7 +506,7 @@ class _VentasState extends State<Ventas> {
   );
 }
 void createData() async {
-  String nombre, apellido, direccion, armazon;
+  String nombre, apellido, direccion;
   dynamic graduacioni, telefono, total, saldo, graduaciond;
 
   nombre = _textFieldController.text;

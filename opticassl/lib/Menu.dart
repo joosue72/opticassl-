@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:opticassl/Agendas.dart';
+import 'package:opticassl/Cobranza.dart';
 import 'package:opticassl/HistorialClientes.dart';
+import 'package:opticassl/HistorialCobranzas.dart';
 import 'package:opticassl/Inventario.dart';
 import 'package:opticassl/Ventas.dart';
 import 'package:opticassl/VentasPendientes.dart';
@@ -279,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             
                              onPressed: (){
                                
-                               Route route = MaterialPageRoute(builder: (bc) => Agendas());
+                               Route route = MaterialPageRoute(builder: (bc) => HistorialCobranzas());
                                Navigator.of(context).push(route);
                               
                              },
@@ -305,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             
                              onPressed: (){
                                
-                               Route route = MaterialPageRoute(builder: (bc) => Agendas());
+                               Route route = MaterialPageRoute(builder: (bc) => Cobranza());
                                Navigator.of(context).push(route);
                               
                              },

@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -5,14 +7,14 @@ import 'package:opticassl/Menu.dart';
 
  String id;
   final db = Firestore.instance;
-  String nombre;
+  String nombre, nombre1, apellido1, nombrecompleto;
   DateTime now = DateTime.now();
   String fecha = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
   String tcosto;
   dynamic obtcosto;
   dynamic total;
   dynamic total2;
-
+  dynamic pagoactual;
 
 class VentasPendientes extends StatefulWidget {
   VentasPendientes({Key key}) : super(key: key);
@@ -24,7 +26,14 @@ class VentasPendientes extends StatefulWidget {
 class _VentasPendientesState extends State<VentasPendientes> {
 
   TextEditingController _textFieldController = TextEditingController();
+
   _displayDialog(BuildContext context, DocumentSnapshot doc) async {
+
+    nombre1 = doc.data['Nombre'];
+    apellido1 = doc.data['Apellidos'];
+    nombrecompleto = nombre1+" "+apellido1;
+    
+
     return showDialog(
         context: context,
         builder: (context) {
@@ -44,6 +53,8 @@ class _VentasPendientesState extends State<VentasPendientes> {
                   Navigator.of(context).pop();
                   
                   updateCantidad(doc);
+                  pagoactual = double.parse(_textFieldController.text);
+                  Firestore.instance.collection('HistorialClientes').add({'Nombre': '$nombrecompleto', 'Filtrar': '$nombre1','Fecha': '$fecha', 'Pago': pagoactual});
                 },
               
               )
@@ -81,7 +92,7 @@ class _VentasPendientesState extends State<VentasPendientes> {
           ),
             Text(
               
-              '${doc.data['Nombre']}${doc.data['Apellidos']}           ${doc.data['Armazon']} ',
+              '${doc.data['Nombre']} ${doc.data['Apellidos']}           ${doc.data['Armazon']} ',
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
             Text(
@@ -89,7 +100,7 @@ class _VentasPendientesState extends State<VentasPendientes> {
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             Text(
-              'Saldo: ${doc.data['Saldo']} \$',
+              'Saldo: ${doc.data['Saldo'].toStringAsFixed(2)} \$',
               style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             SizedBox(height: 10.0),

@@ -26,6 +26,8 @@ TimeOfDay picked;
 int _currentValue = 1;
 String hora;
 String formattedDate;
+String dia;
+String mes;
 
 class _AgendasState extends State<Agendas> {
 
@@ -100,7 +102,7 @@ TextFormField buildTextFormFieldCosto() {
 
                 children: <Widget>[
 
-                Text(_dateTime == null ? 'No hay fecha seleccionada' : _dateTime.toString(),textAlign: TextAlign.center,style: TextStyle(fontSize: 25),),
+                Text(_dateTime == null ? 'No hay fecha seleccionada' : _dateTime.toString(),textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
 
 
                 new IconButton(
@@ -111,6 +113,8 @@ TextFormField buildTextFormFieldCosto() {
                           onPressed: () {
                                showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2001), lastDate: DateTime(2222)).then((date){
                                    formattedDate = DateFormat('dd-MM-yyyy').format(date);
+                                   dia =  DateFormat('dd').format(date) ;
+                                   mes  = DateFormat('MM').format(date) ;
                       setState(() {
                         print(formattedDate);
                         _dateTime = formattedDate;
@@ -223,8 +227,8 @@ TextFormField buildTextFormFieldCosto() {
   nombre =_textCosto.text;
   hora =_time.format(context);
   fecha = formattedDate;
-      print(hora);
-        DocumentReference ref = await db.collection('Agendas').add({'Fecha': '$fecha','Nombre':'$nombre','Hora':'$hora','Sucursal':'$_currentValue'});
+      
+       DocumentReference ref = await db.collection('Agendas').add({'Fecha': '$fecha','Nombre':'$nombre','Hora':'$hora','Sucursal':'$_currentValue','Mes':int.parse(mes),'Dia':int.parse(dia)});
       setState(() => id = ref.documentID);  
   }
 

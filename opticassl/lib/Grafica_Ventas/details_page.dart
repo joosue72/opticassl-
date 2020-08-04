@@ -24,7 +24,7 @@ class _DetailsParamsState extends State<DetailsParams> {
      var _query = Firestore.instance
                 .collection('VentasSucursal1')
                 .where("Mes", isEqualTo: widget.params.month + 1)
-                .where("Nombre", isEqualTo: widget.params.categoryName)
+                .where("Armazon", isEqualTo: widget.params.categoryName)
                 .snapshots();
 
     return Scaffold(
@@ -76,7 +76,7 @@ class _DetailsParamsState extends State<DetailsParams> {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("${"Producto: "+document["Producto"]}",
+                                  child: Text("${"Nombre: "+document["Nombre"]+" "+document["Apellidos"]+"\n"+"Fecha: "+document["Fecha"]+"\n"+"Sucursal: "+document["Sucursal"]+"\n"+"Correo: "+document["Correo"]+"\n"+"Telefono: "+document["Telefono"]}",
                                     style: TextStyle(
                                       color:Colors.blueAccent,
                                       fontWeight: FontWeight.w500,

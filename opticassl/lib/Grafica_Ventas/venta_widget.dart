@@ -37,11 +37,11 @@ class VentaWidget extends StatefulWidget {
 
       categories = documents.fold({}, (Map<String, double> map,document){
 
-        if(!map.containsKey(document['Nombre'])){
-          map[document['Nombre']] = 0.0;
+        if(!map.containsKey(document['Armazon'])){
+          map[document['Armazon']] = 0.0;
         }
 
-        map[document['Nombre']] += document['Costo'];
+        map[document['Armazon']] += document['Costo'];
         return map;
 
       }),
@@ -60,38 +60,41 @@ class _VentaWidgetState extends State<VentaWidget> {
    
     super.initState();
       int currentPage2 = DateTime.now().day;
-      int semana;
+       int currentPage = DateTime.now().month;
+      int semana = 0;
       String t ;
       double total =0 ;
       
 
-      if(currentPage2 <= 7)
+      if(currentPage2 < 7)
       {
 
         semana = 1;
       }
       
-      if(currentPage2 <= 14)
+     else if(currentPage2 <= 14)
       {
         semana = 2;
       }
       
-      if(currentPage2 <= 21)
+     else if(currentPage2 <= 21)
       {
         semana = 3;
       }
       
-      if(currentPage2 > 21)
+     else if(currentPage2 > 21)
       {
         semana = 4;
       }
 
-
+     
+      
 
   final db = Firestore.instance;
     db
                 .collection('VentasSucursal1')
                 .where("Semana", isEqualTo: semana ) 
+                .where("Mes", isEqualTo: currentPage)
                 .snapshots()
                 .listen((result) {
                 result.documents.forEach((result) { 

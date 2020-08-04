@@ -593,7 +593,7 @@ void createData() async {
       {
         pendiente = true;
         saldo = total;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha', 'Pendiente': pendiente, 'Mes': numerofecha, 'Semana': semana,'Dia': int.parse(dia), 'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha', 'Pendiente': pendiente, 'Mes': numerofecha, 'Semana': semana,'Dia': int.parse(dia), 'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Telefono': telefono.toString(), 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue.toString()});
       setState(() => id = ref.documentID);
 
 
@@ -601,7 +601,7 @@ void createData() async {
 
       else {
         pendiente = false;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total, 'Fecha': '$fecha', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Semana': semana, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total, 'Fecha': '$fecha', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Semana': semana, 'Telefono': telefono.toString(), 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue.toString()});
       setState(() => id = ref.documentID); 
       }
 

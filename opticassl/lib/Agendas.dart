@@ -227,9 +227,50 @@ TextFormField buildTextFormFieldCosto() {
   nombre =_textCosto.text;
   hora =_time.format(context);
   fecha = formattedDate;
+  if(_dateTime == null || _textCosto == null )
+  {
+
+    return showDialog<void>(
+                                                        context: context,
+                                                        barrierDismissible: false, // user must tap button!
+                                                        builder: (BuildContext context) {
+                                                          return AlertDialog(
+                                                            title: Text('Llena todos los datos', textAlign: TextAlign.center),
+                                                            content: SingleChildScrollView(
+                                                              child: ListBody(
+                                                                children: <Widget>[
+                                                                  Image.asset(
+                                                                      "images/wrong.gif",
+                                                                      height: 125.0,
+                                                                      width: 125.0,
+                                                                    )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            actions: <Widget>[
+                                                              FlatButton(
+                                                                child: Text('Approve'),
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop();
+                                                                },
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+
+  }
+
+  else{
+
+      DocumentReference ref = await db.collection('Agendas').add({'Fecha': '$fecha','Nombre':'$nombre','Hora':'$hora','Sucursal':'$_currentValue','Mes':int.parse(mes),'Dia':int.parse(dia)});
+      setState(() => id = ref.documentID); 
+
+  }
       
-       DocumentReference ref = await db.collection('Agendas').add({'Fecha': '$fecha','Nombre':'$nombre','Hora':'$hora','Sucursal':'$_currentValue','Mes':int.parse(mes),'Dia':int.parse(dia)});
-      setState(() => id = ref.documentID);  
+       
+  
+
   }
 
    _getCustomAppBar(){

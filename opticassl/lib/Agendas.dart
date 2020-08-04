@@ -1,3 +1,4 @@
+import 'package:OpticaSl/AgendasActuales.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:OpticaSl/Menu.dart';
@@ -118,6 +119,7 @@ TextFormField buildTextFormFieldCosto() {
                       setState(() {
                         print(formattedDate);
                         _dateTime = formattedDate;
+                        
                       });
                   });
                               
@@ -212,7 +214,10 @@ TextFormField buildTextFormFieldCosto() {
             onPressed: () {
                  createData();
                  _textCosto.text = "";
-                 
+                 Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => AgendasActuales()),
+  );
             },
 ),
               ),
@@ -253,12 +258,12 @@ TextFormField buildTextFormFieldCosto() {
         IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: (){
           Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => HomeScreen()),
+    MaterialPageRoute(builder: (context) => AgendasActuales()),
   );
 
         }),
         Text('Agendas', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),),
-        IconButton(icon: Icon(Icons.edit), onPressed: (){}),
+        IconButton(icon: Icon(Icons.calendar_today), onPressed: (){}),
       ],),
     ),
   );

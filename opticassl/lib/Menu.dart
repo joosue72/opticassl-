@@ -1,3 +1,4 @@
+import 'package:OpticaSl/AgendasActuales.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:OpticaSl/Agendas.dart';
@@ -255,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             
                              onPressed: (){
                                
-                               Route route = MaterialPageRoute(builder: (bc) => Agendas());
+                               Route route = MaterialPageRoute(builder: (bc) => AgendasActuales());
                                Navigator.of(context).push(route);
                               
                              },

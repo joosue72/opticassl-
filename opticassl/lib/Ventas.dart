@@ -19,6 +19,7 @@ TextEditingController _textGraduacionI = TextEditingController();
 TextEditingController _textGraduacionD = TextEditingController();
 TextEditingController _textDireccion = TextEditingController();
 TextEditingController _textCosto = TextEditingController();
+TextEditingController _textCorreo = TextEditingController();
 TextEditingController _textCantidad = TextEditingController();
 String id;
 final db = Firestore.instance;
@@ -208,6 +209,29 @@ TextFormField buildTextFormFieldNombre() {
             );
   }
 
+  TextFormField buildTextFormFieldCorreo() {
+
+     return TextFormField(
+                keyboardType: TextInputType.number,
+                controller: _textCorreo,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                 borderSide: BorderSide(color: Color(0xFF009688)),
+                 borderRadius: BorderRadius.all(Radius.circular(30))
+              ),
+              focusedBorder: OutlineInputBorder(
+                 borderSide: BorderSide(color: Colors.transparent),
+                 borderRadius: BorderRadius.all(Radius.circular(30))
+                 ),
+                 prefixIcon: Icon(Icons.mail),
+                 hintText: "Correo",
+                 filled: true,
+                 fillColor: Colors.grey[200]
+            ),
+             
+            );
+  }
+
 
 
 class _VentasState extends State<Ventas> {
@@ -237,6 +261,10 @@ class _VentasState extends State<Ventas> {
           SizedBox(height: 20.0),
           Form(
             child: buildTextFormFieldApellidos(),
+          ),
+          SizedBox(height: 20.0),
+          Form(
+            child: buildTextFormFieldCorreo(),
           ),
           SizedBox(height: 20.0,),
           Form(
@@ -506,12 +534,13 @@ class _VentasState extends State<Ventas> {
   );
 }
 void createData() async {
-  String nombre, apellido, direccion;
+  String nombre, apellido, direccion, correo;
   dynamic graduacioni, telefono, total, saldo, graduaciond;
 
   nombre = _textFieldController.text;
   apellido = _textApellidos.text;
   direccion = _textDireccion.text;
+  correo = _textCorreo.text;
   
   graduacioni = double.parse(_textGraduacionI.text);
   graduaciond = double.parse(_textGraduacionD.text);
@@ -593,7 +622,7 @@ void createData() async {
       {
         pendiente = true;
         saldo = total;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha', 'Pendiente': pendiente, 'Mes': numerofecha, 'Semana': semana,'Dia': int.parse(dia), 'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total = 0, 'Saldo': saldo, 'Fecha': '$fecha', 'Credito': pendiente, 'Mes': numerofecha, 'Semana': semana,'Dia': int.parse(dia), 'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue, 'Correo': correo});
       setState(() => id = ref.documentID);
 
 
@@ -601,7 +630,7 @@ void createData() async {
 
       else {
         pendiente = false;
-        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total, 'Fecha': '$fecha', 'Pendiente': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Semana': semana, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue});
+        DocumentReference ref = await db.collection('VentasSucursal1').add({'Nombre': '$nombre', 'Apellidos': '$apellido','Armazon': selectedCurrency, 'Costo': total, 'Fecha': '$fecha', 'Credito': pendiente, 'Mes': numerofecha,'Dia': int.parse(dia),'GraduacionI': graduacioni,'GraduacionD': graduaciond, 'Semana': semana, 'Telefono': telefono, 'Direccion': direccion, 'Cantidad': cantidad, 'Sucursal': _currentValue, 'Correo': correo});
       setState(() => id = ref.documentID); 
       }
 

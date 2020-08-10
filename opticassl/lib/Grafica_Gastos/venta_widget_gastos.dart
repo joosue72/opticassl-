@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'details_page.dart';
+import 'details_page_gastos.dart';
 
-import 'Grafica_Pie.dart';
-import 'graph_widget.dart';
+import 'Grafica_Pie_gastos.dart';
+import 'graph_widget_gastos.dart';
 
 enum GraphType {
   LINES, PIE,
@@ -25,23 +25,23 @@ class VentaWidget extends StatefulWidget {
  
 
    VentaWidget({Key key,@required this.month, this.graphType,this.documents}) : 
-    total = documents.map((doc) => doc['Costo'])
+    total = documents.map((doc) => doc['Cantidad'])
             .fold(0.0, (a, b) => a + b),
      
      
      perDay = List.generate(30, (int index){
        return documents.where((doc) => doc['Dia'] ==(index + 1))
-        .map((doc) => doc['Costo'])
+        .map((doc) => doc['Cantidad'])
             .fold(0.0, (a, b) => a + b);
      }),       
 
       categories = documents.fold({}, (Map<String, double> map,document){
 
-        if(!map.containsKey(document['Armazon'])){
-          map[document['Armazon']] = 0.0;
+        if(!map.containsKey(document['Nombre'])){
+          map[document['Nombre']] = 0.0;
         }
 
-        map[document['Armazon']] += document['Costo'];
+        map[document['Nombre']] += document['Cantidad'];
         return map;
 
       }),
@@ -53,71 +53,7 @@ class VentaWidget extends StatefulWidget {
 }
 
 class _VentaWidgetState extends State<VentaWidget> {
-
-   double total2 = 0;
-   @override
-  void initState() {
-   
-    super.initState();
-      int currentPage2 = DateTime.now().day;
-       int currentPage = DateTime.now().month;
-      int semana = 0;
-      String t ;
-      double total =0 ;
-      
-
-      if(currentPage2 < 7)
-      {
-
-        semana = 1;
-      }
-      
-     else if(currentPage2 <= 14)
-      {
-        semana = 2;
-      }
-      
-     else if(currentPage2 <= 21)
-      {
-        semana = 3;
-      }
-      
-     else if(currentPage2 > 21)
-      {
-        semana = 4;
-      }
-
-     
-      
-  print(semana);
-  final db = Firestore.instance;
-    db
-                .collection('VentasSucursal1')
-                .where("Semana", isEqualTo: semana ) 
-                .where("Mes", isEqualTo: currentPage)
-                .snapshots()
-                .listen((result) {
-                result.documents.forEach((result) { 
-                  t = result.data['Costo'].toString();
-
-                  total = double.parse(t);
-                  
-                
-                  
-                   
-                     total2 += total;
-                
-                      
-                });
-          
-                  print(total2); 
-                 
-                    
-                });
-
-  }
-  
-  
+  @override
   Widget build(BuildContext context) {
 
     
@@ -146,21 +82,7 @@ class _VentaWidgetState extends State<VentaWidget> {
             fontSize: 40.0
           ),
         ),
-        Text("Total de Ventas",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0,
-            color: Colors.blueGrey,
-          ),
-        ),
-
-         Text("\$${total2.toStringAsFixed(2)}",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 40.0
-          ),
-        ),
-        Text("Total de Ventas por Semana",
+        Text("Total de Gastos",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16.0,
@@ -196,8 +118,8 @@ class _VentaWidgetState extends State<VentaWidget> {
   Widget _item(IconData icon, String nombre, int percent,double value){
     return ListTile(
       onTap: (){
-       Navigator.of(context).pushNamed("/details",
-            arguments: DetailsPage(nombre, widget.month));
+        // Navigator.of(context).pushNamed("/details2",
+        //    arguments: DetailsPage2(nombre, widget.month));
       },
 
       leading: Icon(icon, size: 32.0,),
@@ -207,7 +129,7 @@ class _VentaWidgetState extends State<VentaWidget> {
           fontSize: 20.0 
         ),
       ),
-      subtitle: Text("$percent% de Ventas",
+      subtitle: Text("$percent% de Gastos",
         style: TextStyle(
           fontSize: 16.0,
           color:Colors.blueGrey
@@ -215,7 +137,7 @@ class _VentaWidgetState extends State<VentaWidget> {
       ),
       trailing: Container(
         decoration: BoxDecoration(
-          color: Colors.blueAccent.withOpacity(0.4),
+          color: Colors.blueAccent.withOpacity(0.2),
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: Padding(
@@ -225,7 +147,6 @@ class _VentaWidgetState extends State<VentaWidget> {
               color:Colors.black,
               fontWeight: FontWeight.w500,
               fontSize: 18.0,
-               
             ),
           ),
         )

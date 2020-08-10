@@ -2,6 +2,9 @@ import 'package:OpticaSl/Grafica_Ventas/venta_grafica.dart';
 import 'package:OpticaSl/Menu.dart';
 import 'package:flutter/material.dart';
 
+import 'Grafica_Gastos/venta_grafica_gastos.dart';
+import 'Meta/Ganancias.dart';
+
 
 
  class MenuGraficas extends StatefulWidget {
@@ -129,8 +132,8 @@ class _MenuGraficasState extends State<MenuGraficas> {
                             
                              onPressed: (){
                                
-                               //Route route = MaterialPageRoute(builder: (bc) => venta_grafica2());
-                               //Navigator.of(context).push(route);
+                               Route route = MaterialPageRoute(builder: (bc) => venta_grafica2());
+                               Navigator.of(context).push(route);
                               
                              },
                             ),
@@ -191,8 +194,8 @@ class _MenuGraficasState extends State<MenuGraficas> {
                             
                              onPressed: (){
                                
-                               //Route route = MaterialPageRoute(builder: (bc) => Ganancias());
-                               //Navigator.of(context).push(route);
+                               Route route = MaterialPageRoute(builder: (bc) => Ganancias());
+                               Navigator.of(context).push(route);
                               
                              },
                             ),

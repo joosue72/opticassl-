@@ -1,5 +1,6 @@
 import 'package:OpticaSl/AgendasActuales.dart';
 import 'package:OpticaSl/Gastos.dart';
+import 'package:OpticaSl/MenuGrafica.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:OpticaSl/Agendas.dart';
@@ -229,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             
                              onPressed: (){
                                
-                               Route route = MaterialPageRoute(builder: (bc) => venta_grafica());
+                               Route route = MaterialPageRoute(builder: (bc) => MenuGraficas());
                                Navigator.of(context).push(route);
                               
                              },

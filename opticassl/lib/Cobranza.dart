@@ -218,13 +218,52 @@ void crateData() async
       String mes = DateFormat('MMM').format(now);
       String dia = DateFormat('d').format(now);
       int numerofecha;
+      switch(mes)
+      {
+        case 'Jan':
+            numerofecha = 1;
+        break;
+        case 'Feb':
+            numerofecha = 2;
+        break;
+        case 'Mar':
+            numerofecha = 3;
+        break;
+        case 'Apr':
+            numerofecha = 4;
+        break;
+        case 'May':
+            numerofecha = 5;
+        break;
+        case 'Jun':
+            numerofecha = 6;
+        break;
+        case 'Jul':
+            numerofecha = 7;
+        break;
+        case 'Aug':
+            numerofecha = 8;
+        break;
+        case 'Sep':
+            numerofecha = 9;
+        break;
+        case 'Oct':
+            numerofecha = 10;
+        break;
+        case 'Nov':
+            numerofecha = 11;
+        break;
+        case 'Dec':
+            numerofecha = 12;
+        break;
+      }
 
 
   
                                producto = _textFieldController.text.toString();
                                cantidad = double.parse(_textCantidad.text);
                                codigo = double.parse(_textCodigo.text);
-                               Firestore.instance.collection('Cobranza').add({'NumeroNota': '$producto', 'CantidadNotas': cantidad, 'TotalCobranza': codigo, 'Sucursal': _currentValue, 'Dia': int.parse(dia), 'Mes': mes});   
+                               Firestore.instance.collection('Cobranza').add({'NumeroNota': '$producto', 'CantidadNotas': cantidad, 'TotalCobranza': codigo, 'Sucursal': _currentValue, 'Dia': int.parse(dia), 'Mes': numerofecha});   
                                _textCantidad.text ="";
                                _textCodigo.text="";
                                _textFieldController.text="";

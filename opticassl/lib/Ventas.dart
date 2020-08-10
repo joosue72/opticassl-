@@ -556,23 +556,23 @@ void createData() async {
       int currentPage2 = DateTime.now().day;
       int semana;
 
-      if(currentPage2 <= 7)
+      if(currentPage2 >= 1 && currentPage2 <= 7)
       {
 
         semana = 1;
       }
       
-      if(currentPage2 <= 14)
+      if(currentPage2 >= 8 && currentPage2 <= 14)
       {
         semana = 2;
       }
       
-      if(currentPage2 <= 21)
+      if(currentPage2 >= 15 && currentPage2 <= 21)
       {
         semana = 3;
       }
       
-      if(currentPage2 > 21)
+      if(currentPage2 >= 22 && currentPage2 > 31)
       {
         semana = 4;
       }

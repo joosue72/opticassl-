@@ -14,14 +14,16 @@ import 'package:intl/intl.dart';
 }
 
 TextEditingController _textFieldController = TextEditingController();
+TextEditingController _textFieldNombre = TextEditingController();
 final db = Firestore.instance;
   String id;
 int _currentValue = 1;
 dynamic  cantidad;
+String nombre;
 
 class _GastosState extends State<Gastos> {
 
-  TextFormField buildTextFormFieldNombre() {
+  TextFormField buildTextFormFieldCantidad() {
   
     return TextFormField(
                 keyboardType: TextInputType.number,
@@ -44,6 +46,29 @@ class _GastosState extends State<Gastos> {
             );
   }
 
+  TextFormField buildTextFormFieldNombre() {
+  
+    return TextFormField(
+                keyboardType: TextInputType.text,
+                controller: _textFieldNombre,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                 borderSide: BorderSide(color: Color(0xFF009688)),
+                 borderRadius: BorderRadius.all(Radius.circular(30))
+              ),
+              focusedBorder: OutlineInputBorder(
+                 borderSide: BorderSide(color: Colors.transparent),
+                 borderRadius: BorderRadius.all(Radius.circular(30))
+                 ),
+                 prefixIcon: Icon(Icons.person_add),
+                 hintText: "Nombre",
+                 filled: true,
+                 fillColor: Colors.grey[200]
+            ),
+             
+            );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +84,10 @@ class _GastosState extends State<Gastos> {
             
             //key: _riKey1,
             child: buildTextFormFieldNombre(),
+          ),
+          SizedBox(height: 10.0,),
+          Form(
+            child: buildTextFormFieldCantidad(),
           ),
            Form(
             
@@ -149,34 +178,76 @@ class _GastosState extends State<Gastos> {
 void crateData() async
 {
       DateTime now = DateTime.now();
+      String mes = DateFormat('MMM').format(now);
       int currentPage2 = DateTime.now().day;
       int semana;
+      int numerofecha;
 
-      if(currentPage2 <= 7)
+      if(currentPage2 >= 1 && currentPage2 <= 7)
       {
 
         semana = 1;
       }
       
-      if(currentPage2 <= 14)
+      if(currentPage2 >= 8 && currentPage2 <= 14)
       {
         semana = 2;
       }
       
-      if(currentPage2 <= 21)
+      if(currentPage2 >= 15 && currentPage2 <= 21)
       {
         semana = 3;
       }
       
-      if(currentPage2 > 21)
+      if(currentPage2 >= 22 && currentPage2 > 31)
       {
         semana = 4;
       }
+      switch(mes)
+      {
+        case 'Jan':
+            numerofecha = 1;
+        break;
+        case 'Feb':
+            numerofecha = 2;
+        break;
+        case 'Mar':
+            numerofecha = 3;
+        break;
+        case 'Apr':
+            numerofecha = 4;
+        break;
+        case 'May':
+            numerofecha = 5;
+        break;
+        case 'Jun':
+            numerofecha = 6;
+        break;
+        case 'Jul':
+            numerofecha = 7;
+        break;
+        case 'Aug':
+            numerofecha = 8;
+        break;
+        case 'Sep':
+            numerofecha = 9;
+        break;
+        case 'Oct':
+            numerofecha = 10;
+        break;
+        case 'Nov':
+            numerofecha = 11;
+        break;
+        case 'Dec':
+            numerofecha = 12;
+        break;
+      }
 
 
-  
-                               cantidad = _textFieldController.text.toString();
-                               Firestore.instance.collection('Gastos').add({'Cantidad': cantidad,  'Sucursal': _currentValue, 'Semana': semana});   
+                               nombre = _textFieldNombre.text.toString();
+                               cantidad = double.parse(_textFieldController.text);
+                               Firestore.instance.collection('Gastos').add({'Nombre': nombre,'Cantidad': cantidad,  'Sucursal': _currentValue, 'Semana': semana, 'Mes': numerofecha});   
                                _textFieldController.text="";
+                               _textFieldNombre.text="";
 }
 }

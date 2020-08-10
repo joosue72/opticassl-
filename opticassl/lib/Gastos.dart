@@ -182,6 +182,7 @@ void crateData() async
       int currentPage2 = DateTime.now().day;
       int semana;
       int numerofecha;
+      String dia = DateFormat('d').format(now);
 
       if(currentPage2 >= 1 && currentPage2 <= 7)
       {
@@ -246,7 +247,7 @@ void crateData() async
 
                                nombre = _textFieldNombre.text.toString();
                                cantidad = double.parse(_textFieldController.text);
-                               Firestore.instance.collection('Gastos').add({'Nombre': nombre,'Cantidad': cantidad,  'Sucursal': _currentValue, 'Semana': semana, 'Mes': numerofecha});   
+                               Firestore.instance.collection('Gastos').add({'Nombre': nombre,'Cantidad': cantidad,  'Sucursal': _currentValue, 'Semana': semana, 'Mes': numerofecha, 'Dia': int.parse(dia)});   
                                _textFieldController.text="";
                                _textFieldNombre.text="";
 }

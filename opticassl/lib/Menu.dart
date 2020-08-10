@@ -1,4 +1,5 @@
 import 'package:OpticaSl/AgendasActuales.dart';
+import 'package:OpticaSl/Gastos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:OpticaSl/Agendas.dart';
@@ -308,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             
                              onPressed: (){
                                
-                               Route route = MaterialPageRoute(builder: (bc) => Cobranza());
+                               Route route = MaterialPageRoute(builder: (bc) => Gastos());
                                Navigator.of(context).push(route);
                               
                              },

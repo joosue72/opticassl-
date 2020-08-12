@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:OpticaSl/EditarInventario.dart';
 import 'package:OpticaSl/Menu.dart';
 import 'package:OpticaSl/NuevoProducto.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 
 class Inventario extends StatefulWidget {
@@ -14,6 +15,7 @@ class Inventario extends StatefulWidget {
 }
 
 final db = Firestore.instance;
+int _currentValue = 1;
 
 class _Inventario extends State<Inventario> {
   @override
@@ -24,8 +26,21 @@ class _Inventario extends State<Inventario> {
       body: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
+         Padding(
+          padding: const EdgeInsets.only(left: 130.0),
+          child: Container(child: Text("Sucursal",
+            style: TextStyle(color: Colors.blue, fontSize: 24.0,fontWeight: FontWeight.bold),)),
+        ),
+          new NumberPicker.integer(
+                
+                initialValue: _currentValue,
+                minValue: 1,
+                maxValue: 10,
+                onChanged: (newValue) =>
+                    setState(() => _currentValue = newValue)),
+            
            StreamBuilder<QuerySnapshot>(
-            stream: db.collection('Inventario').where("Cantidad", isGreaterThan: -1).snapshots(),
+            stream: db.collection('Inventario').where("Sucursal", isEqualTo: _currentValue).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(children: snapshot.data.documents.map((doc) => cardbuild(doc)).toList());
@@ -111,7 +126,7 @@ class _Inventario extends State<Inventario> {
             style: TextStyle(color: Color(0xFF011579B), fontSize: 24.0,fontWeight: FontWeight.bold),)),
         ),
         SizedBox(height: 10,),
-        Container(child: Text("   Optica SL \u00B7 Sucursal 1   ",
+        Container(child: Text("   Optica SL \u00B7 Sucursal ${doc.data['Sucursal']}   ",
           style: TextStyle(color: Colors.black54, fontSize: 18.0,fontWeight: FontWeight.bold),)),
           
       ],

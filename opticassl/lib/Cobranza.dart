@@ -25,6 +25,8 @@ final db = Firestore.instance;
 
 class _CobranzaState extends State<Cobranza> {
 
+  
+
   TextFormField buildTextFormFieldNombre() {
   
     return TextFormField(
@@ -51,7 +53,7 @@ class _CobranzaState extends State<Cobranza> {
   TextFormField buildTextFormFieldCantidad() {
   
     return TextFormField(
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.number,
                 controller: _textCantidad,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
@@ -74,7 +76,7 @@ class _CobranzaState extends State<Cobranza> {
   TextFormField buildTextFormFieldCodigo() {
   
     return TextFormField(
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.number,
                 controller: _textCodigo,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
@@ -167,7 +169,10 @@ class _CobranzaState extends State<Cobranza> {
     ],
     ),
             onPressed: () {
-                crateData();                                
+                crateData();
+                 Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => HistorialCobranzas()),);                                
             },
 ),
               ),

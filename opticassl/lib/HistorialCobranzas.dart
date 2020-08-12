@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:OpticaSl/Cobranza.dart';
 import 'package:OpticaSl/Menu.dart';
 import 'package:intl/intl.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 String id;
   final db = Firestore.instance;
@@ -16,7 +18,8 @@ String id;
   dynamic pagoactual;
       String mes = DateFormat('MMM').format(now);
       String dia = DateFormat('d').format(now);
-
+      int _currentValue = 1;
+      int numerofecha;
  class HistorialCobranzas extends StatefulWidget {
   HistorialCobranzas({Key key}) : super(key: key);
 
@@ -25,19 +28,79 @@ String id;
 }
 
 class _HistorialCobranzasState extends State<HistorialCobranzas> {
+
+  
+
   @override
   Widget build(BuildContext context) {
+
+     switch(mes)
+      {
+        case 'Jan':
+            numerofecha = 1;
+        break;
+        case 'Feb':
+            numerofecha = 2;
+        break;
+        case 'Mar':
+            numerofecha = 3;
+        break;
+        case 'Apr':
+            numerofecha = 4;
+        break;
+        case 'May':
+            numerofecha = 5;
+        break;
+        case 'Jun':
+            numerofecha = 6;
+        break;
+        case 'Jul':
+            numerofecha = 7;
+        break;
+        case 'Aug':
+            numerofecha = 8;
+        break;
+        case 'Sep':
+            numerofecha = 9;
+        break;
+        case 'Oct':
+            numerofecha = 10;
+        break;
+        case 'Nov':
+            numerofecha = 11;
+        break;
+        case 'Dec':
+            numerofecha = 12;
+        break;
+      }
+
     return Scaffold(
+      
       backgroundColor: Colors.white,
       appBar: _getCustomAppBar(),
       body: ListView(
+        
         scrollDirection: Axis.vertical,
         children: <Widget>[
+          Padding(
+          padding: const EdgeInsets.only(left: 130.0),
+          child: Container(child: Text("Sucursal",
+            style: TextStyle(color: Colors.blue, fontSize: 24.0,fontWeight: FontWeight.bold),)),
+        ),
+          new NumberPicker.integer(
+                
+                initialValue: _currentValue,
+                minValue: 1,
+                maxValue: 10,
+                onChanged: (newValue) =>
+                    setState(() => _currentValue = newValue)),
            StreamBuilder<QuerySnapshot>(
-            stream: db.collection('Cobranza').where("Dia", isEqualTo: int.parse(dia)).where("Mes", isEqualTo: mes).snapshots(),
+             
+            stream: db.collection('Cobranza').where("Sucursal", isEqualTo: _currentValue).where("Dia", isEqualTo: int.parse(dia)).where("Mes", isEqualTo: numerofecha).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(children: snapshot.data.documents.map((doc) => buildItem(doc)).toList());
+                
               } else {
                 return SizedBox();
               }
@@ -52,6 +115,7 @@ class _HistorialCobranzasState extends State<HistorialCobranzas> {
                                Navigator.of(context).push(route);
      },
      ),
+     
     );
   }
 

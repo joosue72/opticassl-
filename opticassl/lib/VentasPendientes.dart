@@ -54,7 +54,7 @@ class _VentasPendientesState extends State<VentasPendientes> {
                   
                   updateCantidad(doc);
                   pagoactual = double.parse(_textFieldController.text);
-                  Firestore.instance.collection('HistorialClientes').add({'Nombre': '$nombrecompleto', 'Filtrar': '$nombre1','Fecha': '$fecha', 'Pago': pagoactual});
+                  Firestore.instance.collection('HistorialClientes').document("$nombrecompleto").setData({'Nombre': '$nombrecompleto','Fecha': '$fecha', 'Pago': pagoactual});
                 },
               
               )
@@ -207,7 +207,7 @@ SizedBox(width: 8),
         children: <Widget>[
           
              StreamBuilder<QuerySnapshot>(
-            stream: db.collection('VentasSucursal1').where("Pendiente", isEqualTo: true).snapshots(),
+            stream: db.collection('VentasSucursal1').where("Credito", isEqualTo: true).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(children: snapshot.data.documents.map((doc) => buildItem(doc)).toList());

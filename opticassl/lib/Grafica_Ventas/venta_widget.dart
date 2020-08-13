@@ -127,8 +127,8 @@ class _VentaWidgetState extends State<VentaWidget> {
        _expenses(),
           _graph(),
           Container(
-                color: Colors.black.withOpacity(0.1),
-                height: 24.0,
+                color: Colors.black.withOpacity(0.3),
+                height: 5.0,
               ),
           _list(),
       ],
@@ -143,7 +143,7 @@ class _VentaWidgetState extends State<VentaWidget> {
         Text("\$${widget.total.toStringAsFixed(2)}",
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 40.0
+            fontSize: 30.0
           ),
         ),
         Text("Total de Ventas",
@@ -157,7 +157,7 @@ class _VentaWidgetState extends State<VentaWidget> {
          Text("\$${total2.toStringAsFixed(2)}",
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 40.0
+            fontSize: 30.0
           ),
         ),
         Text("Total de Ventas por Semana",
@@ -175,7 +175,7 @@ class _VentaWidgetState extends State<VentaWidget> {
   Widget _graph() {
     if (widget.graphType == GraphType.LINES) {
       return Container(
-        height: 250.0,
+        height: 200.0,
         child: GraphWidget(
           data: widget.perDay,
         ),

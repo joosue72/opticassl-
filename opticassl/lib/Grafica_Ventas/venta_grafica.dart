@@ -21,7 +21,7 @@ class _venta_graficaState extends State<venta_grafica> {
   int currentPage2 = DateTime.now().day;
   Stream<QuerySnapshot> _query;
   GraphType currentType = GraphType.LINES;
-
+  String dropdownValue = '1';
 
   @override
   void initState() {
@@ -29,6 +29,7 @@ class _venta_graficaState extends State<venta_grafica> {
 
     _query = Firestore.instance
         .collection('VentasSucursal1')
+        .where('Sucursal', isEqualTo: dropdownValue)
         .where("Mes", isEqualTo: currentPage + 1)
         .snapshots();
 
@@ -53,6 +54,11 @@ class _venta_graficaState extends State<venta_grafica> {
     print(currentPage2);
     return Scaffold(
      appBar: _getCustomAppBar(),
+
+
+
+
+     
       bottomNavigationBar: BottomAppBar(
           notchMargin: 8.0,
           shape: CircularNotchedRectangle(),
@@ -87,13 +93,83 @@ class _venta_graficaState extends State<venta_grafica> {
         },
       ),
       body: _body(),
+
+      
     );
   }
 
   Widget _body() {
     return SafeArea(
       child: Column(
+     
         children: <Widget>[
+       
+           Form(
+          
+            
+                      child: new Container(
+              child: new Row(
+
+                children: <Widget>[
+
+                   Text('   Sucursal: ' ,textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
+
+               Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20)),
+
+                  // dropdown below..
+                  child: DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 42,
+                      underline: SizedBox(),
+                      onChanged: (String newValue) {
+                       
+                        setState(()  {
+                          dropdownValue = newValue;
+                      
+                          
+                        _query = Firestore.instance
+                        .collection('VentasSucursal1')
+                        .where('Sucursal', isEqualTo: dropdownValue)
+                        .where("Mes", isEqualTo: currentPage + 1)
+                        .snapshots();
+
+                        });
+                      },
+                      items: <String>[
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                        '5',
+                        '6',
+                        '7',
+                        '8',
+                        '9',
+                        '10',
+                        
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList()),
+                ),
+
+
+
+                ],
+              ),
+
+              
+            ),
+                   
+          ),
           _selector(),
           StreamBuilder<QuerySnapshot>(
             stream: _query,

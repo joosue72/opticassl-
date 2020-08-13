@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'Grafica_Gastos/venta_grafica_gastos.dart';
 import 'Meta/Ganancias.dart';
+import 'Meta/Grafica_Meta.dart';
 
 
 
@@ -200,6 +201,35 @@ class _MenuGraficasState extends State<MenuGraficas> {
                              },
                             ),
                         ),
+
+                        Card(
+                          shape:RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)
+                          ),
+                          elevation: 4,
+                          child: RaisedButton(
+                             shape:RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)
+                          ),
+                          elevation: 4,
+                            color: Color(0xFF009688),
+
+
+                            child: Ink.image(image: AssetImage('images/stat5.png'), height: 100, alignment: Alignment.center, 
+
+                            
+      
+                           ) , 
+                            
+                            
+                             onPressed: (){
+                               
+                               Route route = MaterialPageRoute(builder: (bc) => Meta());
+                               Navigator.of(context).push(route);
+                              
+                             },
+                            ),
+                        )
                         
                         
                         

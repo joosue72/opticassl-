@@ -16,6 +16,7 @@ GlobalKey<RefreshIndicatorState> refreshKey;
  
   final _controller = TextEditingController();
   String name = "";
+  double f = 0;
    String dropdownValue = '1';
   TextEditingController meta = new TextEditingController();
    TextEditingController meta2 = new TextEditingController();
@@ -76,10 +77,10 @@ GlobalKey<RefreshIndicatorState> refreshKey;
                             t = result.data['Valor'].toString();
                               total = double.parse(t);
                             print(total);
-                            meta.text= "\$"+ total.toString();
+                            meta.text=  total.toString();
                             
-                           
-                        
+                            
+                          
                           });
                                 
                           });
@@ -202,7 +203,8 @@ GlobalKey<RefreshIndicatorState> refreshKey;
               color: Color(0xFFFFC107),
               
               onPressed: (){
-                Firestore.instance.collection("Meta").document(dropdownValue).updateData({'Valor': int.parse(meta.text)});
+            
+                Firestore.instance.collection("Meta").document(dropdownValue).updateData({'Valor': meta2.text});
               },
             ),
             padding: EdgeInsets.all(32),

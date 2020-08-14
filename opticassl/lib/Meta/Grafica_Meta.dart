@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:OpticaSl/MenuGrafica.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:OpticaSl/Menu.dart';
@@ -36,6 +37,8 @@ class Meta extends StatefulWidget {
 String t ; double total;
 Timer _timer;
  double total1;
+   String dropdownValue = '1';
+  TextEditingController meta = new TextEditingController();
 
  double resultado;
  double porcentaje = 0;
@@ -57,6 +60,23 @@ class _MetaState extends State<Meta> {
     
       int currentPage = DateTime.now().month - 1;
       resultado = 0;
+
+
+              db
+                            .collection("Meta")
+                            .where("S",isEqualTo: dropdownValue)
+                            .snapshots()
+                            .listen((result) {
+                          result.documents.forEach((result) {
+                            t = result.data['Valor'].toString();
+                              total = double.parse(t);
+                         
+                            meta.text=  total.toString();
+                            print(total);
+                        
+                          });
+                                
+                          });
         
 
               db
@@ -81,34 +101,15 @@ class _MetaState extends State<Meta> {
                  
                     
                 });
+
+                
             
 
     
       
   }
 
-   Widget _expenses()  {
-
-    return Column(
-      children: <Widget>[
-
-        
-        Text("\$${total}",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 40.0
-          ),
-        ),
-        Text("Meta de Ventas",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0,
-            color: Colors.blueGrey,
-          ),
-        ),
-      ],
-    );
-  }
+  
 
  
 
@@ -141,18 +142,7 @@ class _MetaState extends State<Meta> {
          setState(() {
        
          
-         if(total > resultado){
-        
-        porcentaje = (resultado * 100 /total)/100;
-         _expenses();
-         _expenses();
        
-        }
-
-        else{
-          porcentaje = .01000 * 100;
-          
-        }
   
          });
         }, 
@@ -160,10 +150,171 @@ class _MetaState extends State<Meta> {
         child:ListView(
           
           children: <Widget>[
+
+             SizedBox(height: 20),
+             Form(
+          
             
-            SizedBox(height: 30),
+                      child: new Container(
+              child: new Row(
+
+                children: <Widget>[
+
+                   Text('   Sucursal: ' ,textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
+
+               Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20)),
+
+                  // dropdown below..
+                  child: DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 42,
+                      underline: SizedBox(),
+                      onChanged: (String newValue) {
+                      
+                       
+                        setState(()  {
+                          
+                          dropdownValue = newValue;
+                      
+                           db
+                            .collection("Meta")
+                            .where("S",isEqualTo: dropdownValue)
+                            .snapshots()
+                            .listen((result) {
+                          result.documents.forEach((result) {
+                            t = result.data['Valor'].toString();
+                              total = double.parse(t);
+                         
+                            meta.text=  total.toString();
+
+                        
+                          });
+                                
+                          });
+
+                            
+                            
+
+                               Future.delayed(const Duration(milliseconds: 200), () {
+
+                                  
+
+                                    setState(() {
+
+                                                print(meta.text);
+
+                                        
+                                            porcentaje = (resultado * 100 /double.parse(meta.text))/100;
+                                            print(porcentaje);
+                                      
+                                        
+                                          
+
+                                        if(total < resultado){
+                    
+                                            
+                                              porcentaje = .01000 * 100;
+                                            
+                                            }
+                                      
+                                    });
+
+                                  });
+
+
+
+                           
+                               
+                           
+                          
+
+                        });
+                      },
+                      items: <String>[
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                        '5',
+                        '6',
+                        '7',
+                        '8',
+                        '9',
+                        '10',
+                        
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList()),
+                ),
+
+
+
+                ],
+              ),
+
+              
+            ),
+                   
+          ),
             
-            _expenses(),
+            SizedBox(height: 10),
+
+                Container(
+            
+          
+            
+            child: TextField(
+                enableInteractiveSelection: false,
+                enabled: false, 
+                keyboardType: null,
+                 textAlign: TextAlign.center,
+                
+                controller: meta,
+                style: TextStyle(
+
+                    
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40.0
+                  ),
+            decoration: InputDecoration(
+             
+           
+              
+                 filled: false,
+              
+            ),
+             
+            ),
+            
+
+            padding: EdgeInsets.all(12),
+            ),
+
+              Container(
+
+                      child: Text("Meta",
+                       textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.blueGrey,
+                  ),
+                ),
+
+            
+            ),
+
+            
+           
             
             CircularPercentIndicator(
               progressColor: Colors.redAccent,
@@ -216,7 +367,7 @@ class _MetaState extends State<Meta> {
         IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: (){
           Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => HomeScreen()),
+    MaterialPageRoute(builder: (context) => MenuGraficas()),
     
   );
 
@@ -237,7 +388,7 @@ class _MetaState extends State<Meta> {
         result.documents.forEach((result) {
           t = result.data['Valor'].toString();
             total = double.parse(t);
-            print(total);
+           
         });
               
         });
@@ -248,6 +399,8 @@ class _MetaState extends State<Meta> {
        
 
      }
+   
+
    
  
 

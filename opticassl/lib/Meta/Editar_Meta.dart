@@ -176,7 +176,7 @@ GlobalKey<RefreshIndicatorState> refreshKey;
                 controller: meta2,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
-                 borderSide: BorderSide(color: Color(0xFFFFC107)),
+                 borderSide: BorderSide(color: Color(0xFF011579B)),
                  borderRadius: BorderRadius.all(Radius.circular(30))
               ),
               focusedBorder: OutlineInputBorder(
@@ -199,8 +199,9 @@ GlobalKey<RefreshIndicatorState> refreshKey;
             width: double.infinity,
             child: FlatButton(
               
-              child: Text("Editar"),
-              color: Color(0xFFFFC107),
+              child: Text("Editar",
+               style: TextStyle(color: Colors.white),),
+              color: Color(0xFF011579B),
               
               onPressed: (){
             
@@ -231,8 +232,8 @@ _getCustomAppBar(){
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Color(0xFFFFC107),
-            Color(0xFFFFFFFF),
+            Color(0xFF009688),
+            Color(0xFF011579B),
           ],
         ),
       ),

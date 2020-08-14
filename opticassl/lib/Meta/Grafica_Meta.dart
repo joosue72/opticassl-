@@ -82,6 +82,7 @@ class _MetaState extends State<Meta> {
               db
                 .collection('VentasSucursal1')
                 .where("Mes", isEqualTo: currentPage + 1) 
+                .where("Sucursal",isEqualTo:dropdownValue)
                 .snapshots()
                 .listen((result) {
                 result.documents.forEach((result) { 
@@ -179,6 +180,11 @@ class _MetaState extends State<Meta> {
                       
                        
                         setState(()  {
+
+                           resultado = 0;
+
+                           
+
                           
                           dropdownValue = newValue;
                       
@@ -197,6 +203,31 @@ class _MetaState extends State<Meta> {
                           });
                                 
                           });
+
+
+                          db
+                              .collection('VentasSucursal1')
+                              .where("Mes", isEqualTo: currentPage + 1) 
+                              .where("Sucursal",isEqualTo:dropdownValue)
+                              .snapshots()
+                              .listen((result) {
+                              result.documents.forEach((result) { 
+                                t = result.data['Costo'].toString();
+
+                                total1 = double.parse(t);
+                                
+                                  
+                                
+                                  resultado = resultado + double.parse(t);
+                                  
+                              
+                                    
+                              });
+                        
+                                print(resultado); 
+                              
+                                  
+                              });
 
                             
                             
@@ -317,7 +348,7 @@ class _MetaState extends State<Meta> {
            
             
             CircularPercentIndicator(
-              progressColor: Colors.redAccent,
+              progressColor: Colors.blueGrey,
               percent: porcentaje,
               animation:true,
               radius:250.0,
@@ -331,7 +362,7 @@ class _MetaState extends State<Meta> {
               alignment: MainAxisAlignment.center,
               width: 250.0,
               lineHeight: 15.0,
-              progressColor: Colors.orangeAccent,
+              progressColor: Colors.blueGrey,
               percent: porcentaje,
               center: Text((porcentaje * 100).toStringAsFixed(2)+ "%"),
               animation: true,
@@ -355,9 +386,9 @@ class _MetaState extends State<Meta> {
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [
-            Color(0xFFFFC107),
-            Color(0xFFFFFFFF),
+           colors: [
+            Color(0xFF009688),
+            Color(0xFF011579B),
           ],
         ),
       ),
@@ -432,8 +463,8 @@ class _MetaState extends State<Meta> {
  
    _crearBoton(BuildContext context) {
     return FloatingActionButton(
-      child: Icon( Icons.add , color: Colors.black),
-      backgroundColor: Color(0xFFFFC107),
+      child: Icon( Icons.add , color: Colors.white),
+      backgroundColor: Color(0xFF011579B),
             
       onPressed: (){
                                

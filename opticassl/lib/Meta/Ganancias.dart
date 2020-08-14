@@ -17,9 +17,14 @@ int currentPage = DateTime.now().month - 1;
      final db = Firestore.instance;
      String t ;
       String t2 ;
+      double t3;
      double resultado = 0;
      double resultado2 = 0;
-
+      String dropdownValue = '1';
+        TextEditingController meta = new TextEditingController();
+   TextEditingController meta2 = new TextEditingController();
+   TextEditingController meta3 = new TextEditingController();
+double total1;
 class _GananciasState extends State<Ganancias> {
   @override
   Widget build(BuildContext context) {
@@ -54,6 +59,7 @@ class _BarGraphDemoState extends State<BarGraphDemo> {
      db
                 .collection('VentasSucursal1')
                 .where("Mes", isEqualTo: currentPage + 1) 
+                .where("Sucursal", isEqualTo: dropdownValue)
                 .snapshots()
                 .listen((result) {
                 result.documents.forEach((result) { 
@@ -81,6 +87,7 @@ class _BarGraphDemoState extends State<BarGraphDemo> {
                  db
                 .collection('Gastos')
                 .where("Mes", isEqualTo: currentPage + 1) 
+                .where("Sucursal", isEqualTo: dropdownValue)
                 .snapshots()
                 .listen((result) {
                 result.documents.forEach((result) { 
@@ -155,7 +162,215 @@ class _BarGraphDemoState extends State<BarGraphDemo> {
          child:ListView(
            
         children: <Widget>[
-           _expenses2(),
+          SizedBox(height: 20),
+             Form(
+          
+            
+                      child: new Container(
+              child: new Row(
+
+                children: <Widget>[
+
+                   Text('   Sucursal: ' ,textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
+
+               Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20)),
+
+                  // dropdown below..
+                  child: DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 42,
+                      underline: SizedBox(),
+                      onChanged: (String newValue) {
+                       
+                        setState(()  {
+
+                          resultado = 0;
+                          resultado2 = 0;
+                          dropdownValue = newValue;
+
+                            db
+                              .collection('VentasSucursal1')
+                              .where("Mes", isEqualTo: currentPage + 1) 
+                              .where("Sucursal",isEqualTo:dropdownValue)
+                              .snapshots()
+                              .listen((result) {
+                              result.documents.forEach((result) { 
+                                t = result.data['Costo'].toString();
+
+                                total1 = double.parse(t);
+                                
+                                  
+                                
+                                  resultado = resultado + double.parse(t);
+                                  meta2.text =  "\$" +resultado.toString();
+                              
+                                    
+                              });
+                        
+                                
+                              
+                                  
+                              });
+
+                              
+
+
+                               db
+                                    .collection('Gastos')
+                                    .where("Mes", isEqualTo: currentPage + 1) 
+                                    .where("Sucursal", isEqualTo: dropdownValue)
+                                    .snapshots()
+                                    .listen((result) {
+                                    result.documents.forEach((result) { 
+                                      t2 = result.data['Cantidad'].toString();
+
+                                  
+                                      
+                                    
+                                      
+                                        resultado2 = resultado2 + double.parse(t2);
+                                      
+                                  
+                                                          
+                                      meta3.text =  "\$"+resultado2.toString();
+                                          
+                                    });
+                              
+                                      
+                                      
+                                      print(resultado2); 
+                                        
+                                    });
+
+
+                                     Future.delayed(const Duration(milliseconds: 200), () {
+
+                                  
+
+                                    setState(() {
+
+                                        t3 = resultado - resultado2;
+
+                                         meta.text= "\$"+t3.toString();
+
+                                          data = [
+
+                                          AppDownloads(
+                                            year: 'Gastos',
+                                            count: resultado2,
+                                            barColor: charts.ColorUtil.fromDartColor(Colors.blue),
+                                          ),
+                                          AppDownloads(
+                                            year: 'Ventas',
+                                            count: resultado,
+                                            barColor: charts.ColorUtil.fromDartColor(Colors.green), 
+                                          ),
+                                        ];
+                                      
+                                    });
+
+                                  });
+            
+
+                      
+                          
+                         
+
+                        });
+                      },
+                      items: <String>[
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                        '5',
+                        '6',
+                        '7',
+                        '8',
+                        '9',
+                        '10',
+                        
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList()),
+                ),
+
+
+
+                ],
+              ),
+
+              
+            ),
+                   
+          ),
+             SizedBox(height: 10),
+
+                Container(
+            
+          
+            
+            child: TextField(
+                enableInteractiveSelection: false,
+                enabled: false, 
+                keyboardType: null,
+                 textAlign: TextAlign.center,
+                
+                controller: meta,
+                style: TextStyle(
+
+                    
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40.0
+                  ),
+            decoration: InputDecoration(
+             
+           
+              
+                 filled: false,
+              
+            ),
+             
+            ),
+
+            
+            
+
+            padding: EdgeInsets.all(2),
+            ),
+
+            
+            Container(
+
+                      child: Text("Ganancias",
+                       textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.blueGrey,
+                  ),
+                ),
+
+            
+            ),
+
+
+
+
+
+
+
+
+
           Container(
             height: 200,
             width: double.infinity,
@@ -165,90 +380,118 @@ class _BarGraphDemoState extends State<BarGraphDemo> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
+          
 
-              child: _expenses3(),
+           SizedBox(height: 10),
+
+                Container(
+            
+          
+            
+            child: TextField(
+                enableInteractiveSelection: false,
+                enabled: false, 
+                keyboardType: null,
+                 textAlign: TextAlign.center,
+                
+                controller: meta2,
+                style: TextStyle(
+
+                    
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40.0
+                  ),
+            decoration: InputDecoration(
+             
+           
               
+                 filled: false,
+              
+            ),
              
             ),
-          ),
 
-          _expenses4()
+            
+            
+
+            padding: EdgeInsets.all(12),
+            ),
+
+            
+            Container(
+
+                      child: Text("Ventas",
+                       textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.blueGrey,
+                  ),
+                ),
+
+            
+            ),
+
+
+
+
+            Container(
+            
+          
+            
+            child: TextField(
+                enableInteractiveSelection: false,
+                enabled: false, 
+                keyboardType: null,
+                 textAlign: TextAlign.center,
+                
+                controller: meta3,
+                style: TextStyle(
+
+                    
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40.0
+                  ),
+            decoration: InputDecoration(
+             
+           
+              
+                 filled: false,
+              
+            ),
+             
+            ),
+
+            
+            
+
+            padding: EdgeInsets.all(12),
+            ),
+
+            
+            Container(
+
+                      child: Text("Gastos",
+                       textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                    color: Colors.blueGrey,
+                  ),
+                ),
+
+            
+            ),
         ],
       ),
       ),
     );
   }
 
-   Widget _expenses2() {
    
-    return Column(
-      children: <Widget>[
-        
-        Text("\$${resultado - resultado2}",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 40.0,
-             color: Colors.greenAccent,
-          ),
-        ),
-        Text("Ganancias",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0,
-            color: Colors.blueGrey,
-          ),
-        ),
-      ],
-    );
-  }
 
-   Widget _expenses3() {
    
-    return Column(
-      children: <Widget>[
-        
-        Text("\$${resultado }",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 40.0,
-           
-          ),
-        ),
-        Text("Total de Ventas",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0,
-            color: Colors.blueGrey,
-          ),
-        ),
-      ],
-    );
-  }
-
-   Widget _expenses4() {
-   
-    return Column(
-      children: <Widget>[
-        
-        Text("\$${resultado2}",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 40.0
-          ),
-        ),
-        Text("Total de Gastos",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0,
-            color: Colors.blueGrey,
-          ),
-        ),
-      ],
-    );
-  }
+  
 
   _getCustomAppBar(){
   return PreferredSize(
@@ -260,8 +503,8 @@ class _BarGraphDemoState extends State<BarGraphDemo> {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Color(0xFFFFC107),
-            Color(0xFFFFFFFF),
+             Color(0xFF009688),
+            Color(0xFF011579B),
           ],
         ),
       ),

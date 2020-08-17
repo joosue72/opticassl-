@@ -3,15 +3,13 @@ import 'package:OpticaSl/Gastos.dart';
 import 'package:OpticaSl/MenuGrafica.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:OpticaSl/Agendas.dart';
-import 'package:OpticaSl/Cobranza.dart';
 import 'package:OpticaSl/HistorialClientes.dart';
 import 'package:OpticaSl/HistorialCobranzas.dart';
 import 'package:OpticaSl/Inventario.dart';
-import 'package:OpticaSl/Ventas.dart';
+import 'Meta/Grafica_Meta.dart';
 import 'package:OpticaSl/VentasPendientes.dart';
 
-import 'Grafica_Ventas/venta_grafica.dart';
+
 
 
 
@@ -113,15 +111,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           elevation: 4,
                             color: Color(0xFF009688),
                             
-                            child: Ink.image(image: AssetImage('images/carrito1.png'), height: 100, alignment: Alignment.center, 
+                            child: Ink.image(image: AssetImage('images/meta.png'), height: 100, alignment: Alignment.center, 
                            ) , 
 
                             
                              onPressed: (){
                                
-                               Route route = MaterialPageRoute(builder: (bc) => Ventas());
+                               Route route = MaterialPageRoute(builder: (bc) => Meta());
                                Navigator.of(context).push(route);
-                              
                              },
                             ),
 

@@ -398,7 +398,7 @@ class _MetaState extends State<Meta> {
         IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: (){
           Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => MenuGraficas()),
+    MaterialPageRoute(builder: (context) => HomeScreen()),
     
   );
 

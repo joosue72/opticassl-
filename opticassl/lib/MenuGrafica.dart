@@ -202,34 +202,7 @@ class _MenuGraficasState extends State<MenuGraficas> {
                             ),
                         ),
 
-                        Card(
-                          shape:RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)
-                          ),
-                          elevation: 4,
-                          child: RaisedButton(
-                             shape:RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)
-                          ),
-                          elevation: 4,
-                            color: Color(0xFF009688),
-
-
-                            child: Ink.image(image: AssetImage('images/stat5.png'), height: 100, alignment: Alignment.center, 
-
-                            
-      
-                           ) , 
-                            
-                            
-                             onPressed: (){
-                               
-                               Route route = MaterialPageRoute(builder: (bc) => Meta());
-                               Navigator.of(context).push(route);
-                              
-                             },
-                            ),
-                        )
+                       
                         
                         
                         

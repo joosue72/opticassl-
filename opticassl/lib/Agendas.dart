@@ -268,7 +268,7 @@ TextFormField buildTextFormFieldCosto() {
 
   else{
 
-      DocumentReference ref = await db.collection('Agendas').add({'Fecha': '$fecha','Nombre':'$nombre','Hora':'$hora','Sucursal':'$_currentValue','Mes':int.parse(mes),'Dia':int.parse(dia)});
+      DocumentReference ref = await db.collection('Agendas').add({'Fecha': '$fecha','Nombre':'$nombre','Hora':'$hora','Sucursal':_currentValue,'Mes':int.parse(mes),'Dia':int.parse(dia)});
       setState(() => id = ref.documentID); 
 
   }

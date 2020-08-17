@@ -20,7 +20,7 @@ class _venta_grafica2State extends State<venta_grafica2> {
   int currentPage = DateTime.now().month - 1;
   Stream<QuerySnapshot> _query;
   GraphType currentType = GraphType.LINES;
-
+  String dropdownValue = '1';
 
   @override
   void initState() {
@@ -105,6 +105,73 @@ class _venta_grafica2State extends State<venta_grafica2> {
       child: Column(
         
         children: <Widget>[
+
+          Form(
+          
+            
+                      child: new Container(
+              child: new Row(
+
+                children: <Widget>[
+
+                   Text('   Sucursal: ' ,textAlign: TextAlign.center,style: TextStyle(fontSize: 20),),
+
+               Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20)),
+
+                  // dropdown below..
+                  child: DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 42,
+                      underline: SizedBox(),
+                      onChanged: (String newValue) {
+                       
+                        setState(()  {
+                          dropdownValue = newValue;
+                      
+                          
+                        _query = Firestore.instance
+                        .collection('Gastos')
+                        .where('Sucursal', isEqualTo: dropdownValue)
+                        .where("Mes", isEqualTo: currentPage + 1)
+                        .snapshots();
+
+                        });
+                      },
+                      items: <String>[
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                        '5',
+                        '6',
+                        '7',
+                        '8',
+                        '9',
+                        '10',
+                        
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList()),
+                ),
+
+
+
+                ],
+              ),
+
+              
+            ),
+                   
+          ),
           
 
           _selector(),

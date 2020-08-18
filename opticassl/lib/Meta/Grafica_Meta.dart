@@ -37,7 +37,7 @@ class Meta extends StatefulWidget {
 String t ; double total;
 Timer _timer;
  double total1;
-   String dropdownValue = '1';
+   int dropdownValue = 1;
   TextEditingController meta = new TextEditingController();
 
  double resultado;
@@ -171,12 +171,12 @@ class _MetaState extends State<Meta> {
                       borderRadius: BorderRadius.circular(20)),
 
                   // dropdown below..
-                  child: DropdownButton<String>(
+                  child: DropdownButton<int>(
                       value: dropdownValue,
                       icon: Icon(Icons.arrow_drop_down),
                       iconSize: 42,
                       underline: SizedBox(),
-                      onChanged: (String newValue) {
+                      onChanged: (int newValue) {
                       
                        
                         setState(()  {
@@ -190,7 +190,7 @@ class _MetaState extends State<Meta> {
                       
                            db
                             .collection("Meta")
-                            .where("S",isEqualTo: dropdownValue)
+                            .where("S",isEqualTo: dropdownValue.toString())
                             .snapshots()
                             .listen((result) {
                           result.documents.forEach((result) {
@@ -267,22 +267,22 @@ class _MetaState extends State<Meta> {
 
                         });
                       },
-                      items: <String>[
-                        '1',
-                        '2',
-                        '3',
-                        '4',
-                        '5',
-                        '6',
-                        '7',
-                        '8',
-                        '9',
-                        '10',
+                      items: <int>[
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
                         
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
+                      ].map<DropdownMenuItem<int>>((int value) {
+                        return DropdownMenuItem<int>(
                           value: value,
-                          child: Text(value),
+                          child: Text(value.toString()),
                         );
                       }).toList()),
                 ),

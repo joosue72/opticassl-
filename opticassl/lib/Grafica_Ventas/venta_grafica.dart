@@ -21,7 +21,7 @@ class _venta_graficaState extends State<venta_grafica> {
   int currentPage2 = DateTime.now().day;
   Stream<QuerySnapshot> _query;
   GraphType currentType = GraphType.LINES;
-  String dropdownValue = '1';
+  int dropdownValue = 1;
 
   @override
   void initState() {
@@ -122,12 +122,12 @@ class _venta_graficaState extends State<venta_grafica> {
                       borderRadius: BorderRadius.circular(20)),
 
                   // dropdown below..
-                  child: DropdownButton<String>(
+                  child: DropdownButton<int>(
                       value: dropdownValue,
                       icon: Icon(Icons.arrow_drop_down),
                       iconSize: 42,
                       underline: SizedBox(),
-                      onChanged: (String newValue) {
+                      onChanged: (int newValue) {
                        
                         setState(()  {
                           dropdownValue = newValue;
@@ -141,22 +141,22 @@ class _venta_graficaState extends State<venta_grafica> {
 
                         });
                       },
-                      items: <String>[
-                        '1',
-                        '2',
-                        '3',
-                        '4',
-                        '5',
-                        '6',
-                        '7',
-                        '8',
-                        '9',
-                        '10',
+                      items: <int>[
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
                         
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
+                      ].map<DropdownMenuItem<int>>((int value) {
+                        return DropdownMenuItem<int>(
                           value: value,
-                          child: Text(value),
+                          child: Text(value.toString()),
                         );
                       }).toList()),
                 ),

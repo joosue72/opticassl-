@@ -150,34 +150,34 @@ void validarLogin(BuildContext context)
                                              else
                                               {
                                                 
-                                                      return showDialog<void>(
-                                                        context: context,
-                                                        barrierDismissible: false, // user must tap button!
-                                                        builder: (BuildContext context) {
-                                                          return AlertDialog(
-                                                            title: Text('Contraseña Incorrecta', textAlign: TextAlign.center),
-                                                            content: SingleChildScrollView(
-                                                              child: ListBody(
-                                                                children: <Widget>[
-                                                                  Image.asset(
-                                                                      "images/wrong.gif",
-                                                                      height: 125.0,
-                                                                      width: 125.0,
-                                                                    )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                              FlatButton(
-                                                                child: Text('Approve'),
-                                                                onPressed: () {
-                                                                  Navigator.of(context).pop();
-                                                                },
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
+                                                   //   return showDialog<void>(
+                                                     //   context: context,
+                                                        //barrierDismissible: false, // user must tap button!
+                                                       // builder: (BuildContext context) {
+                                                          //return AlertDialog(
+                                                            //title: Text('Contraseña Incorrecta', textAlign: TextAlign.center),
+                                                            //content: SingleChildScrollView(
+                                                             // child: ListBody(
+                                                               // children: <Widget>[
+                                                                 // Image.asset(
+                                                                   //   "images/wrong.gif",
+                                                                     // height: 125.0,
+                                                                      //width: 125.0,
+                                                                    //)
+                                                                //],
+                                                              //),
+                                                            //),
+                                                            //actions: <Widget>[
+                                                              //FlatButton(
+                                                               // child: Text('Approve'),
+                                                                //onPressed: () {
+                                                                 // Navigator.of(context).pop();
+                                                                //},
+                                                              //),
+                                                            //],
+                                                          //);
+                                                        //},
+                                                      //);
                                                     
                                               }
                                           

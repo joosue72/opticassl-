@@ -76,7 +76,7 @@ class _DetailsParamsState extends State<DetailsParams> {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("${"Nombre: "+document["Nombre"]+" "+document["Apellidos"]+"\n"+"Fecha: "+document["Fecha"]+"\n"+"Sucursal: "+document["Sucursal"]+"\n"+"Correo: "+document["Correo"]+"\n"+"Telefono: "+document["Telefono"]}",
+                                  child: Text("${"Nombre: "+document["Nombre"]+" "+document["Apellidos"]+"\n"+"Fecha: "+document["Fecha"]+"\n"+"Correo: "+document["Correo"]+"\n"+"Direccion: "+document["Direccion"]}",
                                     style: TextStyle(
                                       color:Colors.blueAccent,
                                       fontWeight: FontWeight.w500,

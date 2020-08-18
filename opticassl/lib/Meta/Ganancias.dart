@@ -20,7 +20,7 @@ int currentPage = DateTime.now().month - 1;
       double t3;
      double resultado = 0;
      double resultado2 = 0;
-      String dropdownValue = '1';
+      int dropdownValue = 1;
         TextEditingController meta = new TextEditingController();
    TextEditingController meta2 = new TextEditingController();
    TextEditingController meta3 = new TextEditingController();
@@ -181,12 +181,12 @@ class _BarGraphDemoState extends State<BarGraphDemo> {
                       borderRadius: BorderRadius.circular(20)),
 
                   // dropdown below..
-                  child: DropdownButton<String>(
+                  child: DropdownButton<int>(
                       value: dropdownValue,
                       icon: Icon(Icons.arrow_drop_down),
                       iconSize: 42,
                       underline: SizedBox(),
-                      onChanged: (String newValue) {
+                      onChanged: (int newValue) {
                        
                         setState(()  {
 
@@ -284,22 +284,22 @@ class _BarGraphDemoState extends State<BarGraphDemo> {
 
                         });
                       },
-                      items: <String>[
-                        '1',
-                        '2',
-                        '3',
-                        '4',
-                        '5',
-                        '6',
-                        '7',
-                        '8',
-                        '9',
-                        '10',
+                      items: <int>[
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
                         
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
+                      ].map<DropdownMenuItem<int>>((int value) {
+                        return DropdownMenuItem<int>(
                           value: value,
-                          child: Text(value),
+                          child: Text(value.toString()),
                         );
                       }).toList()),
                 ),

@@ -3,6 +3,7 @@ import 'package:OpticaSl/Menu.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 String id;
   final db = Firestore.instance;
@@ -17,6 +18,7 @@ String id;
   String mes = DateFormat('MMM').format(now);
   String dia = DateFormat('d').format(now);
   int numerofecha;
+  int _currentValue = 1;
 
   
 
@@ -85,9 +87,21 @@ switch(mes)
       body: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
+          Padding(
+          padding: const EdgeInsets.only(left: 130.0),
+          child: Container(child: Text("Sucursal",
+            style: TextStyle(color: Colors.blue, fontSize: 24.0,fontWeight: FontWeight.bold),)),
+        ),
+          new NumberPicker.integer(
+                
+                initialValue: _currentValue,
+                minValue: 1,
+                maxValue: 10,
+                onChanged: (newValue) =>
+                    setState(() => _currentValue = newValue)),
           SizedBox(height: 30.0,),
            StreamBuilder<QuerySnapshot>(
-            stream: db.collection('Agendas').where("Dia", isEqualTo: int.parse(dia)).where("Mes", isEqualTo: numerofecha).snapshots(),
+            stream: db.collection('Agendas').where("Sucursal", isEqualTo: _currentValue).where("Dia", isEqualTo: int.parse(dia)).where("Mes", isEqualTo: numerofecha).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                             

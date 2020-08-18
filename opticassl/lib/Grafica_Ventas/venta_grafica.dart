@@ -28,6 +28,7 @@ class _venta_graficaState extends State<venta_grafica> {
     super.initState();
 
     _query = Firestore.instance
+
         .collection('VentasSucursal1')
         .where('Sucursal', isEqualTo: dropdownValue)
         .where("Mes", isEqualTo: currentPage + 1)
@@ -270,8 +271,8 @@ class _venta_graficaState extends State<venta_grafica> {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Colors.deepPurpleAccent[400],
-            Colors.blueAccent,
+            Color(0xFF009688),
+            Color(0xFF011579B),
           ],
         ),
       ),

@@ -140,7 +140,7 @@ class _VentaWidgetState extends State<VentaWidget> {
     Widget _expenses() {
     return Column(
       children: <Widget>[
-        Text("\$${total2.toStringAsFixed(2)}",
+        Text("\$${widget.total.toStringAsFixed(2)}",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30.0
@@ -154,7 +154,7 @@ class _VentaWidgetState extends State<VentaWidget> {
           ),
         ),
 
-         Text("\$${widget.total.toStringAsFixed(2)}",
+         Text("\$${total2.toStringAsFixed(2)}",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30.0

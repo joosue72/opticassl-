@@ -207,7 +207,7 @@ class _HistorialCobranzasState extends State<HistorialCobranzas> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 SizedBox.fromSize(
-  size: Size(100, 40), // button width and height
+  size: Size(100, 50), // button width and height
   child: ClipRRect(
     child: Material(
       shape: RoundedRectangleBorder(
@@ -230,7 +230,7 @@ class _HistorialCobranzasState extends State<HistorialCobranzas> {
 ),
 SizedBox(width: 8),
                SizedBox.fromSize(
-  size: Size(100, 40), // button width and height
+  size: Size(100, 50), // button width and height
   child: ClipRRect(
     child: Material(
       shape: RoundedRectangleBorder(

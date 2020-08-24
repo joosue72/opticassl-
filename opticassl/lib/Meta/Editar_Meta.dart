@@ -206,6 +206,10 @@ GlobalKey<RefreshIndicatorState> refreshKey;
               onPressed: (){
             
                 Firestore.instance.collection("Meta").document(dropdownValue).updateData({'Valor': meta2.text});
+                Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => Meta()));
+                
               },
             ),
             padding: EdgeInsets.all(32),

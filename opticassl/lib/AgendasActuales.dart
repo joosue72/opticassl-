@@ -179,7 +179,7 @@ switch(mes)
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 SizedBox.fromSize(
-  size: Size(100, 40), // button width and height
+  size: Size(100, 50), // button width and height
   child: ClipRRect(
     child: Material(
       shape: RoundedRectangleBorder(

@@ -77,11 +77,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        
                         CircleAvatar(
-                          radius: 40,
-                          backgroundColor: Color(0xFF009688),
+
+                          radius: 42,
+                          backgroundColor: Colors.black,
                           backgroundImage: AssetImage(
+                            
                               'assets/pp1.png'),
+                              child: Visibility( 
+                              child: IconButton( icon: Icon(Icons.arrow_back_ios), onPressed: (){
+          Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => HomeScreen()),
+    
+  );
+
+        }),
+        maintainInteractivity: true,
+        maintainSize: true, 
+  maintainAnimation: true,
+        maintainState: true,
+        visible: false,
+        ),   
                         ),
                         SizedBox(
                           width: 16,
